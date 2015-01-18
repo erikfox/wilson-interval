@@ -1,6 +1,6 @@
 # Wilson Interval
 
-Used to calculate the *high bound*, *low bound*, and *center* of a [Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval).
+Used to calculate the **high bound**, **low bound**, and *center* of a [Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval), because everyone else seems to only give you the low bound.
 
 ## API
 
