@@ -17,7 +17,7 @@ var wilson = require('wilson-interval')
 Returns an object with `.high`, `.low`, and `.center` properties:
 
 ```
-return wilson.full(40, 10 , 1.0);
+return wilson(40, 10 , 1.0);
 ```
 will output
 ```
