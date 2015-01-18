@@ -1,10 +1,10 @@
-module.exports = function(ups, downs, z) {
+exports.full = function(ups, downs, z) {
 		
 		var n = ups + downs;
 		
 		if (n == 0) return 0;
 				
-		var z = z || 1.0 // 1.0 = 85%, 1.6 = 95%
+		var z = z || 1.036 // 1.036 = 85%, 1.645 = 95%
 		
 		var p = (ups/n);
 		
