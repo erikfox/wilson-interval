@@ -8,7 +8,7 @@ Used to calculate the *high bound*, *low bound*, and *center* of a [Wilson score
 var wilson = require('wilson-interval')
 ```
 
-### wilson.full(pos, neg [, z-score])
+### wilson(pos, neg [, z-score])
 
 - `pos` - positive outcomes
 - `neg` - negative outcomes
