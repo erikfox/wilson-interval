@@ -2,7 +2,7 @@ module.exports = function(ups, downs, z) {
 		
 	var n = ups + downs;
 	
-	if (n == 0) return 0;
+	if (n <= 0 || n < ups) return 0;
 			
 	var z = z || 1.036 // 1.036 = 85%, 1.645 = 95%
 	

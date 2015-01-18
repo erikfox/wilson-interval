@@ -10,9 +10,9 @@ var wilson = require('wilson-interval')
 
 ### wilson(pos, neg [, z-score])
 
-- `pos` - positive outcomes
-- `neg` - negative outcomes
-- `z-score` - the z-score (confidence level) of the interval. Defaults to 1.0 (~85% confidence).
+- `pos` - positive outcomes/votes
+- `neg` - negative outcomes/votes
+- `z-score` - the z-score (confidence level) of the interval. Defaults to 1.036 (85% confidence).
 
 Returns an object with `.high`, `.low`, and `.center` properties:
 

@@ -1,0 +1,32 @@
+{
+  "name": "wilson-interval",
+  "version": "1.0.0",
+  "description": "Used to calculate the high bound, low bound, and center of a Wilson score interval",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erikfox/wilson-interval.git"
+  },
+  "keywords": [
+    "wilson",
+    "score",
+    "reddit",
+    "confidence",
+    "statistics",
+    "proportion",
+    "interval",
+    "rank",
+    "votes",
+    "upvotes",
+    "downvotes"
+  ],
+  "author": "Erik Fox <erik@erikfox.co> (http://erikfox.co)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erikfox/wilson-interval/issues"
+  },
+  "homepage": "https://github.com/erikfox/wilson-interval"
+}
