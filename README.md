@@ -2,11 +2,14 @@
 
 Used to calculate the **high bound**, **low bound**, and **center** of a **[Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)**, because every other package I found would only give me the low bound.
 
-## API
+
+## Include
 
 ```js
 var wilson = require('wilson-interval')
 ```
+
+## Usage
 
 ### wilson(pos, neg [, z-score])
 
