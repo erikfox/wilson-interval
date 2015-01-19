@@ -5,6 +5,7 @@ var exports = module.exports = {};
 /*
  * Standard Wilson score interval
  *
+ * credit: Sean Wallis, Survey of English Usage, University College of London
  * source: http://www.ucl.ac.uk/english-usage/staff/sean/resources/CLSV-handout.pdf
  */
 exports.reg = function(ups, downs, z) {
@@ -63,9 +64,10 @@ exports.cont = function(ups, downs, z) {
  *
  * Wilson score interval with Singleton's Adjustment
  *
+ * credit: Sean Wallis, Survey of English Usage, University College of London
  * source: http://www.ucl.ac.uk/english-usage/staff/sean/resources/CLSV-handout.pdf
  */
-exports.adj = function(ups, downs, N) {
+exports.adj = function(ups, downs, N, z) {
 	
 	var n 	= ups + downs;			// sample size
 	if (n <= 0 || n < ups) return 0;

@@ -1,3 +1,3 @@
 var wilson = require('./index');
 
-console.log('No tests available');
+console.log(wilson.reg(5,95,1.96));

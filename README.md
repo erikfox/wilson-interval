@@ -17,6 +17,8 @@ var wilson = require('wilson-interval')
 
 *Standard [Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval).*
 
+*Transcribed from the work of [Sean Wallis, Survey of English Usage, University College of London](http://www.ucl.ac.uk/english-usage/staff/sean/resources/CLSV-handout.pdf)*
+
 - `pos` - positive outcomes/votes
 - `neg` - negative outcomes/votes
 - `z-score` - the z-score (confidence level) of the interval. Defaults to 1.036 (85% confidence).
@@ -61,9 +63,11 @@ will output something like
 
 ____
 
-###!COMING SOON! wilson.adj(pos, neg, pop [, z-score])
+###wilson.adj(pos, neg, pop [, z-score])
 
 *Wilson score interval [with Singleton's Adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/). Greatly improves accuracy of interval as sample size approaches total population.*
+
+*Transcribed from the work of [Sean Wallis, Survey of English Usage, University College of London](http://www.ucl.ac.uk/english-usage/staff/sean/resources/CLSV-handout.pdf)*
 
 - `pos` - positive outcomes/votes
 - `neg` - negative outcomes/votes
