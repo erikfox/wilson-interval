@@ -31,9 +31,9 @@ return wilson.reg(40, 10 , 1.0);
 will output something like
 ```
 {
-	"high": 0.8504368886915493,
-	"center": 0.7941176470588236,
-	"low": 0.7377984054260978
+	high: 0.8504368886915493,
+	center: 0.7941176470588236,
+	low: 0.7377984054260978
 }
 ```
 
@@ -50,15 +50,16 @@ ___
 Returns an object with `.high`, `.low`, and `.center` properties:
 
 ```
-return wilson.cont(40, 10 , 1.0);
+return wilson.cont(5,95,1.96);
 ```
-will output something like
+will output
 ```
-{
-	"high": 0.8504368886915493,
-	"center": 0.7941176470588236,
-	"low": 0.7377984054260978
+{ 
+	high: 0.11442726924030829,
+	center: 0.06664766336420086,
+	low: 0.018868057488093438 
 }
+
 ```
 
 ____
@@ -77,13 +78,14 @@ ____
 Returns an object with `.high`, `.low`, and `.center` properties:
 
 ```
-return wilson.cont(40, 10 , 1.0);
+return wilson.adj(5,95,227,1.96);
 ```
-will output something like
+will output
 ```
 {
-	"high": 0.8504368886915493,
-	"center": 0.7941176470588236,
-	"low": 0.7377984054260978
+	high: 0.10110165417407262,
+	center: 0.06256927868327641,
+	low: 0.024036903192480218 
 }
+
 ```
