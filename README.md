@@ -1,6 +1,6 @@
 # Wilson Interval
 
-Used to calculate the **high bound**, **low bound**, and **center** of a **[Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)**. 
+A comprehensive module used to calculate the **high bound**, **low bound**, and **center** of a **[Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)**. Features support for **[continuity correction](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval_with_continuity_correction)** and **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**.
 
 Popularized by **[Reddit's Comment Sort](http://amix.dk/blog/post/19588)** and similar voting algorithms.
 
@@ -13,79 +13,46 @@ var wilson = require('wilson-interval')
 ## Usage
 
 
-###wilson.reg(pos, neg [, z-score])
+###wilson(obs, total [, z-score][, pop][, cont])
 
-*Standard [Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval).*
+- `obs` - observed positive outcomes (e.g. upvotes).
+- `total` - total sample size (e.g. upvotes + downvotes).
 
-*Transcribed from the work of [Sean Wallis, Survey of English Usage, University College of London](http://www.ucl.ac.uk/english-usage/staff/sean/resources/CLSV-handout.pdf)*
+Optional inputs:
 
-- `pos` - positive outcomes/votes
-- `neg` - negative outcomes/votes
-- `z-score` - the z-score (confidence level) of the interval. Defaults to 1.036 (85% confidence).
-
-Returns an object with `.high`, `.low`, and `.center` properties:
-
-```
-return wilson.reg(40, 10 , 1.0);
-```
-will output something like
-```
-{
-	high: 0.8504368886915493,
-	center: 0.7941176470588236,
-	low: 0.7377984054260978
-}
-```
-
-___
-
-###wilson.cont(pos, neg [, z-score])
-
-*Wilson score interval [with continuity correction](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval_with_continuity_correction).*
-
-- `pos` - positive outcomes/votes
-- `neg` - negative outcomes/votes
-- `z-score` - the z-score (confidence level) of the interval. Defaults to 1.036 (85% confidence).
+- `z-score` - the z-score (critical value). Defaults to `1.96` (95% confidence interval).
+- `pop` - to use [Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/), enter the population size. Defaults `false`.
+- `cont` - to use [continuity correction](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval_with_continuity_correction), set `true`. Default `false`.
 
 Returns an object with `.high`, `.low`, and `.center` properties:
 
 ```
-return wilson.cont(5,95,1.96);
-```
-will output
-```
-{ 
-	high: 0.11442726924030829,
-	center: 0.06664766336420086,
-	low: 0.018868057488093438 
-}
-
-```
-
-____
-
-###wilson.adj(pos, neg, pop [, z-score])
-
-*Wilson score interval [with Singleton's Adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/). Greatly improves accuracy of interval as sample size approaches total population.*
-
-*Transcribed from the work of [Sean Wallis, Survey of English Usage, University College of London](http://www.ucl.ac.uk/english-usage/staff/sean/resources/CLSV-handout.pdf)*
-
-- `pos` - positive outcomes/votes
-- `neg` - negative outcomes/votes
-- `pop` - population size
-- `z-score` - the z-score (confidence level) of the interval. Defaults to 1.036 (85% confidence).
-
-Returns an object with `.high`, `.low`, and `.center` properties:
-
-```
-return wilson.adj(5,95,227,1.96);
+return wilson(40,100);
 ```
 will output
 ```
 {
-	high: 0.10110165417407262,
-	center: 0.06256927868327641,
-	low: 0.024036903192480218 
+	high: 0.4979992153815976,
+	center: 0.4036994807476002,
+	low: 0.3093997461136029 
 }
-
 ```
+
+## Notes
+
+### Singleton's adjustment
+
+Uses a known, finite population size to inform the degree of uncertainty of the prediction.
+
+> ![Singleton's adjustment](https://corplingstats.files.wordpress.com/2012/04/popsamp1.png?w=538)
+
+> Descriptive statistics summarises the sample as if it were the entire population (left), whereas inferential statistics assumes the sample is a tiny subset of the population (right). If the sample is a large part of the population the confidence interval on observations is reduced (middle). — [Sean Wallis, *"Inferential statistics – and other animals"*](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)
+
+**USE WHEN:**
+
+1. Your sample size represents a significant portion of the population.
+2. You have an imperfect original sample, from which you can only verify a subsample. The original sample can serve as a "population" to produce a verification interval to be combined with the first. — [Sean Wallis, *"Coping with imperfect data"*](https://corplingstats.wordpress.com/2014/04/10/imperfect-data/)
+
+## Credits
+
+*Special thanks to **Sean Wallis**—Senior Research Fellow, Survey of English Usage—for his aid in transcribing equations, and for his blog posts which inspired many of the features of this module.*

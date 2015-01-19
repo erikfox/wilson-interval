@@ -1,3 +1,3 @@
 var wilson = require('./index');
 
-console.log('No tests available');
+console.log('Haven\'t written any, sorry!');
