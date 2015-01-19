@@ -1,4 +1,3 @@
 var wilson = require('./index');
 
-
-console.log('No tests, currently');
+console.log('No tests available');

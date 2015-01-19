@@ -5,35 +5,27 @@ var exports = module.exports = {};
 /*
  * Standard Wilson score interval
  *
- * source: http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval
+ * source: http://www.ucl.ac.uk/english-usage/staff/sean/resources/CLSV-handout.pdf
  */
 exports.reg = function(ups, downs, z) {
 	
-	var n = ups + downs;	
+	var n = ups + downs;		// sample size
 	if (n <= 0 || n < ups) return 0;
 
-	var z = z || 1.036; // 1.036 = 85%, 1.645 = 95%
-	var p = (ups/n);
-			
-	var high = ((1/(1+((1/n)*(z*z))))*((p+((1/(2*n))*(z*z)))+(z*Math.sqrt(((1/n)*p*(1-p))+((1/(4*(n*n)))*(z*z))))));
-	var low = ((1/(1+((1/n)*(z*z))))*((p+((1/(2*n))*(z*z)))-(z * Math.sqrt(((1/n)*p*(1-p))+((1/(4*(n*n)))*(z*z))))));
-	var center = (high+low)/2; // or for independent calculation = ((p+((1/(2*n))*(z*z)))/(1+((1/n)*(z*z))));
+	var z = z || 1.036; 		// 1.036 = 85%, 1.645 = 95%
+	var p = (ups/n);			// frequency
+				
+	var x = z*Math.sqrt(((p*(1-p))/n)+((z*z)/(4*(n*n))));
+	
+	var high 	= ((p+((z*z)/(2*n))) + x) / (1+((z*z)/n));
+	var low 	= ((p+((z*z)/(2*n))) - x) / (1+((z*z)/n));
+	var center 	= ((p+((z*z)/(2*n))) / (1+((z*z)/n)));
 		
 	var wilson = {
 		high: high,
 		center: center,
 		low: low
 	}
-	
-	/*var left = (1/(1+((1/n)*(z*z))));
-	var middle = (p+((1/(2*n))*(z*z)));
-	var diff = (z * Math.sqrt(((1/n)*p*(1-p))+((1/(4*(n*n)))*(z*z))));
-	
-	var wilson = {
-		high: (left * (middle + diff)),
-		center: ((p + ((1/(2*n))*(z*z))) / (1 + ((1/n)*(z*z)))),
-		low: (left * (middle - diff))
-	};*/
 		
 	return wilson;
 }
@@ -45,15 +37,17 @@ exports.reg = function(ups, downs, z) {
  */
 exports.cont = function(ups, downs, z) {
 	
-	var n = ups + downs;	
+	var n = ups + downs;		// sample size	
 	if (n <= 0 || n < ups) return 0;
 
 	var z = z || 1.036; // 1.036 = 85%, 1.645 = 95%
-	var p = (ups/n);
+	var p = (ups/n);			// frequency
 	
-	var high = (((2*n*p)+(z*z)+(z*Math.sqrt((z*z)-(1/n)+(4*n*p*(1-p))-(4*p-2)+1)))/(2*(n+(z*z))));
-	var low = (((2*n*p)+(z*z)-(z*Math.sqrt((z*z)-(1/n)+(4*n*p*(1-p))+(4*p-2)+1)))/(2*(n+(z*z))));
-	var center = (high+low)/2;
+	var x		= (z*Math.sqrt((z*z)-(1/n)+(4*n*p*(1-p))-(4*p-2)+1));
+	
+	var high 	= (((2*n*p)+(z*z) + x) / (2*(n+(z*z))));
+	var low 	= (((2*n*p)+(z*z) - x) / (2*(n+(z*z))));
+	var center 	= (((2*n*p)+(z*z)) / (2*(n+(z*z))));
 	
 	var wilson = {
 		high: high,
@@ -69,25 +63,24 @@ exports.cont = function(ups, downs, z) {
  *
  * Wilson score interval with Singleton's Adjustment
  *
- * source: https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/
- 
-exports.adj = function(ups, downs, s, z) {
+ * source: http://www.ucl.ac.uk/english-usage/staff/sean/resources/CLSV-handout.pdf
+ */
+exports.adj = function(ups, downs, N) {
 	
-	var n = ups + downs;	
+	var n 	= ups + downs;			// sample size
 	if (n <= 0 || n < ups) return 0;
-
-	var z = z || 1.036; // 1.036 = 85%, 1.645 = 95%
-	var p = (ups/n);
-	var v = Math.sqrt(1-n/s);
 	
-	var left = (p+(z*z)*(v*v)/(2*n));
-	var right = (z*Math.sqrt(p*(1-p)*(v*v)/n+(z*z)*(v*v*v*v)/4*(n*n)));
-	var top = (left + right);
-	var bottom = (1+(z*z)*(v*v)/n);
+	var N	= N;					// population size
+	var z 	= z || 1.036; 			// 1.036 = 85%, 1.645 = 95%
+	var p 	= ups/n;				// frequency
+	var v 	= Math.sqrt(1-n/N); 	// scale factor
+	var N1 	= n/v; 					// adjusted N
+		
+	var x 		= z*Math.sqrt(((p*(1-p))/N1)+((z*z)/(4*(N1*N1))));
 	
-	var high = (((p+(z*z)*(v*v)/(2*n))+(z*Math.sqrt(p*(1-p)*(v*v)/n+(z*z)*(v*v*v*v)/4*(n*n))))/(1+(z*z)*(v*v)/n));
-	var low = (((p+(z*z)*(v*v)/(2*n))-(z*Math.sqrt(p*(1-p)*(v*v)/n+(z*z)*(v*v*v*v)/4*(n*n))))/(1+(z*z)*(v*v)/n));;
-	var center = (high+low)/2;
+	var high 	= ((p+((z*z)/(2*N1))) + x) / (1+((z*z)/N1));
+	var low 	= ((p+((z*z)/(2*N1))) - x) / (1+((z*z)/N1));
+	var center 	= ((p+((z*z)/(2*N1))) / (1+((z*z)/N1)));	
 	
 	var wilson = {
 		high: high,
@@ -97,4 +90,3 @@ exports.adj = function(ups, downs, s, z) {
 	
 	return wilson;
 }
-*/
