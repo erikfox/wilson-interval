@@ -55,4 +55,4 @@ Uses a known, finite population size to inform the degree of uncertainty of the 
 
 ## Credits
 
-*Special thanks to **Sean Wallis**—Senior Research Fellow, Survey of English Usage—for his aid in transcribing equations, and for his blog posts which inspired many of the features of this module.*
+*Special thanks to Sean Wallis—Senior Research Fellow, Survey of English Usage—for his aid in transcribing equations, and for his blog posts which inspired many of the features of this module.*
