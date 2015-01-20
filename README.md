@@ -35,7 +35,7 @@ Returns an object with `.high`, `.low`, and `.center` properties:
 return wilson(40,100);
 ```
 will output
-```json
+```js
 {
 	high: 0.4979992153815976,
 	center: 0.4036994807476002,
