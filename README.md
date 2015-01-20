@@ -4,11 +4,16 @@ A comprehensive module used to calculate the **high bound**, **low bound**, and 
 
 Popularized by **[Reddit's Comment Sort](http://amix.dk/blog/post/19588)** and similar voting algorithms.
 
+### Install:
+
+```js
+npm install wilson-interval
+```
 
 ### Include:
 
 ```js
-var wilson = require('wilson-interval')
+var wilson = require('wilson-interval');
 ```
 ## Usage
 
@@ -26,11 +31,11 @@ Optional inputs:
 
 Returns an object with `.high`, `.low`, and `.center` properties:
 
-```
+```js
 return wilson(40,100);
 ```
 will output
-```
+```js
 {
 	high: 0.4979992153815976,
 	center: 0.4036994807476002,
@@ -55,9 +60,9 @@ Uses a known, finite population size to inform the degree of uncertainty of the 
 
 ## Sources
 
-1. [Wallis, Sean 2012. *Inferential Statistics — and other animals*. London: Survey of English Usage, UCL.](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)
+<sup>[1]</sup> [Wallis, Sean 2012. *Inferential Statistics — and other animals*. London: Survey of English Usage, UCL.](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)
 
-2. [Wallis, Sean 2014. *Coping with imperfect data*. London: Survey of English Usage, UCL.](https://corplingstats.wordpress.com/2014/04/10/imperfect-data/)
+<sup>[2]</sup> [Wallis, Sean 2014. *Coping with imperfect data*. London: Survey of English Usage, UCL.](https://corplingstats.wordpress.com/2014/04/10/imperfect-data/)
 
 ___
-<sup>*Special thanks to Sean Wallis—Senior Research Fellow, Survey of English Usage—for his aid in transcribing equations, and for his blog posts which inspired many of the features of this module.*</sup>
+*Special thanks to Sean Wallis—Senior Research Fellow, Survey of English Usage—for his aid in transcribing equations, and for his blog posts which inspired many of the features of this module.*
