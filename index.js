@@ -41,7 +41,7 @@ function wilson_continuity(p, n, z) {
 module.exports = function(f, n, z, N, c) {
 	
 	var p 	= f/n;				// proportion of positive outcomes
-	var z 	= z || 1.96;		// critical value
+	var z 	= z || 1.95996;		// critical value, two-tailed
 	var N 	= N || false; 		// population size
 	
 	if (N) {							// if population size given:

@@ -2,11 +2,11 @@
 
 A comprehensive module used to calculate the **high bound**, **low bound**, and **center** of a **[Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)**. Features support for **[continuity correction](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval_with_continuity_correction)** and **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**.
 
-Popularized by **[Reddit's Comment Sort](http://amix.dk/blog/post/19588)** and similar voting algorithms.
+Popularized by **[Reddit's Comment/Best Sort](http://amix.dk/blog/post/19588)** and similar voting algorithms.
 
 ### Install:
 
-```js
+```console
 npm install wilson-interval
 ```
 
@@ -35,7 +35,7 @@ Returns an object with `.high`, `.low`, and `.center` properties:
 return wilson(40,100);
 ```
 will output
-```js
+```json
 {
 	high: 0.4979992153815976,
 	center: 0.4036994807476002,
@@ -44,6 +44,12 @@ will output
 ```
 
 ## Notes
+
+### Low bound sorting
+
+Most often, the **low bound** of the calculated Wilson score interval will be used as the sorting measure (e.g. **[Reddit's Comment/Best Sort](http://amix.dk/blog/post/19588)**). This places more importance on confidence than number of upvotes. 
+
+Even if a new submission has 100% upvotes, this ensures it won't be ranked at the top until enough data has been gathered for the algorithm to be confident that that ratio is what it really deserves.
 
 ### Singleton's adjustment
 

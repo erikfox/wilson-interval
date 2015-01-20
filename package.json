@@ -1,6 +1,6 @@
 {
   "name": "wilson-interval",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Used to calculate the high bound, low bound, and center of a Wilson score interval. Features support for continuity correction and Singleton's adjustment.",
   "main": "index.js",
   "scripts": {
