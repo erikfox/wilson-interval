@@ -28,5 +28,8 @@
   "bugs": {
     "url": "https://github.com/erikfox/wilson-interval/issues"
   },
-  "homepage": "https://github.com/erikfox/wilson-interval"
+  "homepage": "https://github.com/erikfox/wilson-interval",
+  "dependencies": {
+    "pnormaldist": "^1.0.0"
+  }
 }
