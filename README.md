@@ -18,15 +18,15 @@ var wilson = require('wilson-interval');
 ## Usage
 
 
-###wilson(obs, total [, z-score][, pop][, cont])
+###wilson(obs, total [, conf ][, pop ][, cont ])
 
 - `obs` - observed positive outcomes (e.g. upvotes).
 - `total` - total sample size (e.g. upvotes + downvotes).
 
 Optional inputs:
 
-- `z-score` - the z-score (critical value). Defaults to `1.96` (95% confidence interval).
-- `pop` - to use **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**<sup>[1]</sup>, enter the population size. Defaults `false`.
+- `conf` - custom confidence level. Default `0.95` for 95% confidence.
+- `pop` - to use **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**<sup>[1]</sup>, enter the population size. Default `false`.
 - `cont` - to use **[continuity correction](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval_with_continuity_correction)**, set `true`. Default `false`.
 
 Returns an object with `.high`, `.low`, and `.center` properties:
