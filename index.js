@@ -1,7 +1,7 @@
 // index.js
 
 // Dependencies
-var pnormaldist = require('pnormaldist');
+var stats = require('statistics2');
 
 // Standard Wilson score interval
 function wilson_standard(p, n, z) {
@@ -48,10 +48,10 @@ module.exports = function(f, n, c, N, continuity) {
         var v 	= Math.sqrt(1-n/N);		// determine scale factor
             n 	= n/v; 					// and adjust sample size
     }
-	
-		c 	= c || 0.95;		// confidence level, defaults to 95%
-	
-	var z 	= pnormaldist(1 - (1 - c) / 2); // calculate z-score: http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
+
+        c 	= c || 0.95;		// confidence level, defaults to 95%
+
+    var z 	= stats.pnormaldist(1 - (1 - c) / 2); // calculate z-score: http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
 
     if (continuity) return wilson_continuity(p, n, z);
 
