@@ -30,6 +30,6 @@
   },
   "homepage": "https://github.com/erikfox/wilson-interval",
   "dependencies": {
-    "pnormaldist": "^1.0.0"
+    "statistics2": "0.0.1"
   }
 }
