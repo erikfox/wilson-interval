@@ -4,7 +4,7 @@
   "description": "Used to calculate the high bound, low bound, and center of a Wilson score interval. Features support for continuity correction and Singleton's adjustment.",
   "main": "index.js",
   "scripts": {
-    "test": "test.js"
+    "test": "echo "Error: no test specified" && exit 1"
   },
   "repository": {
     "type": "git",
