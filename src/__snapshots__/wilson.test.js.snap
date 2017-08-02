@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`wilson(40,100) 1`] = `
+Object {
+  "center": 0.4036993497736011,
+  "high": 0.4979974125606493,
+  "low": 0.30940128698655295,
+}
+`;

@@ -27,13 +27,16 @@
   ],
   "main": "./lib/index.js",
   "scripts": {
-    "build": "babel src --out-dir lib"
+    "build": "babel src --out-dir lib",
+    "test": "jest"
   },
   "dependencies": {
     "pnormaldist": "^1.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.6.0"
+    "babel-jest": "^20.0.3",
+    "babel-preset-env": "^1.6.0",
+    "jest": "^20.0.4"
   }
 }
