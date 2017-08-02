@@ -27,7 +27,7 @@
   ],
   "main": "./lib/index.js",
   "scripts": {
-    "build": "babel src --out-dir lib",
+    "build": "babel ./src/index.js --out-file ./lib/index.js",
     "test": "jest"
   },
   "dependencies": {
