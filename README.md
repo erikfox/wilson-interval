@@ -18,7 +18,7 @@ var wilson = require('wilson-interval');
 ## Usage
 
 
-###wilson(obs, total [, conf ][, pop ][, cont ])
+### wilson(obs, total [, conf ][, pop ][, cont ])
 
 - `obs` - observed positive outcomes (e.g. upvotes).
 - `total` - total sample size (e.g. upvotes + downvotes).

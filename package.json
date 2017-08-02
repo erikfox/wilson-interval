@@ -3,9 +3,6 @@
   "version": "1.1.8",
   "description": "Used to calculate the high bound, low bound, and center of a Wilson score interval. Features support for continuity correction and Singleton's adjustment.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo "Error: no test specified" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/erikfox/wilson-interval.git"
