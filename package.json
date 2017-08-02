@@ -1,11 +1,16 @@
 {
   "name": "wilson-interval",
   "version": "1.1.8",
+  "author": "Erik Fox <erik@erikfox.co> (http://erikfox.co)",
   "description": "Used to calculate the high bound, low bound, and center of a Wilson score interval. Features support for continuity correction and Singleton's adjustment.",
-  "main": "index.js",
+  "license": "MIT",
+  "homepage": "https://github.com/erikfox/wilson-interval",
   "repository": {
     "type": "git",
     "url": "https://github.com/erikfox/wilson-interval.git"
+  },
+  "bugs": {
+    "url": "https://github.com/erikfox/wilson-interval/issues"
   },
   "keywords": [
     "wilson",
@@ -20,13 +25,15 @@
     "upvotes",
     "downvotes"
   ],
-  "author": "Erik Fox <erik@erikfox.co> (http://erikfox.co)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/erikfox/wilson-interval/issues"
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "babel src --out-dir lib"
   },
-  "homepage": "https://github.com/erikfox/wilson-interval",
   "dependencies": {
     "pnormaldist": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0"
   }
 }
