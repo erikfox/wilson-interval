@@ -2,11 +2,11 @@ import math from 'mathjs';
 import pnormaldist from 'pnormaldist';
 
 // Standard Wilson score interval
-export function wilsonStandard(p, n, z) {
+export function wilsonStandard(proportion, sample, zScore) {
   const scope = {
-    p: math.bignumber(p),
-    n: math.bignumber(n),
-    z: math.bignumber(z),
+    p: math.bignumber(proportion),
+    n: math.bignumber(sample),
+    z: math.bignumber(zScore),
   };
 
   const high = math.format(math.eval(
@@ -32,11 +32,11 @@ export function wilsonStandard(p, n, z) {
 }
 
 // Wilson score interval with continuity correction
-export function wilsonContinuity(p, n, z) {
+export function wilsonContinuity(proportion, sample, zScore) {
   const scope = {
-    p: math.bignumber(p),
-    n: math.bignumber(n),
-    z: math.bignumber(z),
+    p: math.bignumber(proportion),
+    n: math.bignumber(sample),
+    z: math.bignumber(zScore),
   };
 
   const high = math.format(math.eval(
@@ -65,40 +65,50 @@ export function wilsonContinuity(p, n, z) {
  * credit: Sean Wallis, Survey of English Usage, University College of London
  * source: https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/
  */
-export default function (f, n, c = 0.95, N = false, continuity = false) {
+export default function (observed, sample, options = {}) {
+  const {
+    precision = 20,
+    continuity = false,
+  } = options;
+
   math.config({
-    number: 'BigNumber',  // Default type of number:
-    precision: 20,        // Number of significant digits for BigNumbers
+    number: 'BigNumber',
+    precision,
   });
 
-  f = math.bignumber(f);
-  n = math.bignumber(n);
-  c = math.bignumber(c);
-  N = N ? math.bignumber(N) : N;
+  let {
+    confidence = 0.95,
+    population = false,
+  } = options;
+
+  observed = math.bignumber(observed);
+  sample = math.bignumber(sample);
+  confidence = math.bignumber(confidence);
+  population = population ? math.bignumber(population) : population;
 
   // proportion of positive outcomes
-  const p = math.eval(
-    'f / n',
-    { f, n },
+  const proportion = math.eval(
+    'observed / sample',
+    { observed, sample },
   );
 
   // if population size given
-  if (N) {
+  if (population) {
     // determine scale factor
-    const v = math.eval(
-      'sqrt(1 - n / N)',
-      { n, N },
+    const factor = math.eval(
+      'sqrt(1 - sample / population)',
+      { sample, population },
     );
 
     // and adjust sample size
-    n = math.eval(
-      'n / v',
-      { n, v },
+    sample = math.eval(
+      'sample / factor',
+      { sample, factor },
     );
   }
 
   // calculate z-score: http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
-  const z = pnormaldist(1 - (1 - c) / 2);
+  const zScore = pnormaldist(1 - (1 - confidence) / 2);
 
-  return continuity ? wilsonContinuity(p, n, z) : wilsonStandard(p, n, z);
+  return continuity ? wilsonContinuity(proportion, sample, zScore) : wilsonStandard(proportion, sample, zScore);
 }

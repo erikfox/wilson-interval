@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`wilson(40, 100, undefined, false, true) 1`] = `
+exports[`wilson(40, 100, { continuity: true }) 1`] = `
 Object {
   "center": "0.40369934977360109507",
   "high": "0.50299643878127279972",
