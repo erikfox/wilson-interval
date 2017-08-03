@@ -1,6 +1,11 @@
-[![Coverage Status](https://coveralls.io/repos/github/erikfox/wilson-interval/badge.svg?branch=master)](https://coveralls.io/github/erikfox/wilson-interval?branch=master)
-
 # Wilson Interval
+
+[![license](https://img.shields.io/github/license/erikfox/wilson-interval.svg)](https://opensource.org/licenses/MIT)
+[![npm](https://img.shields.io/npm/v/wilson-interval.svg)](https://www.npmjs.com/package/wilson-interval)
+
+[![npm](https://img.shields.io/npm/dt/wilson-interval.svg?colorB=32CD32)](https://www.npmjs.com/package/wilson-interval)
+[![CircleCI](https://img.shields.io/circleci/project/github/erikfox/wilson-interval.svg?colorB=32CD32)](https://circleci.com/gh/erikfox/wilson-interval/tree/master)
+[![Coveralls](https://img.shields.io/coveralls/erikfox/wilson-interval.svg?colorB=32CD32)]()
 
 A comprehensive module used to calculate the **high bound**, **low bound**, and **center** of a **[Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)**. Features support for known populations (i.e. **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**).
 
@@ -8,7 +13,7 @@ Popularized by **[Reddit's Comment/Best Sort](http://amix.dk/blog/post/19588)** 
 
 ### Install
 
-```bash
+```sh
 npm install wilson-interval
 ```
 
