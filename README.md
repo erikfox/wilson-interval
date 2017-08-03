@@ -1,55 +1,58 @@
 # Wilson Interval
 
-A comprehensive module used to calculate the **high bound**, **low bound**, and **center** of a **[Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)**. Features support for **[continuity correction](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval_with_continuity_correction)** and **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**.
+A comprehensive module used to calculate the **high bound**, **low bound**, and **center** of a **[Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)**. Features support for known populations (i.e. **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**).
 
 Popularized by **[Reddit's Comment/Best Sort](http://amix.dk/blog/post/19588)** and similar voting algorithms.
 
-### Install:
+### Install
 
-```console
+```bash
 npm install wilson-interval
 ```
 
-### Include:
+### Include
 
 ```js
-var wilson = require('wilson-interval');
+import wilson from 'wilson-interval';
 ```
+
 ## Usage
 
+### wilson(observed, sample[, population ][, options ]);
 
-### wilson(obs, total [, conf ][, pop ][, cont ])
+- `observed` - Number of observed positive outcomes.
 
-- `obs` - observed positive outcomes (e.g. upvotes).
-- `total` - total sample size (e.g. upvotes + downvotes).
+- `sample` - Size of sample.
 
-Optional inputs:
+Optional arguments:
 
-- `conf` - custom confidence level. Default `0.95` for 95% confidence.
-- `pop` - to use **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**<sup>[1]</sup>, enter the population size. Default `false`.
-- `cont` - to use **[continuity correction](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval_with_continuity_correction)**, set `true`. Default `false`.
+- `population` - Default `false`. Total population from which sample was taken (to use **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**<sup>[1]</sup>).
 
-Returns an object with `.high`, `.low`, and `.center` properties:
+- `options` - Default `{}`. Options object. Available parameters:
 
+	- `confidence` - Default `0.95`. Desired confidence level of interval.
+	- `precision` - Default `20`. Number of significant figures to use in calculations and output.
+
+#### Example
 ```js
-return wilson(40,100);
+return wilson(5, 100);
 ```
-will output
-```js
+returns
+```json
 {
-	high: 0.4979992153815976,
-	center: 0.4036994807476002,
-	low: 0.3093997461136029 
+  "center": "0.066647073981204927863",
+  "high": "0.11175046869375655694",
+  "low": "0.021543679268653298792",
 }
 ```
 
-## Notes
+## Use cases
 
 ### Low bound sorting
 
-Most often, the **low bound** of the calculated Wilson score interval will be used as the sorting measure (e.g. **[Reddit's Comment/Best Sort](http://amix.dk/blog/post/19588)**). This places more importance on confidence than number of upvotes. 
+Most often, the **low bound** of the interval will be used as the sorting parameter (e.g. **[Reddit's Comment/Best Sort](http://amix.dk/blog/post/19588)**). This places more importance on confidence than total score.
 
-Even if a new submission has 100% upvotes, this ensures it won't be ranked at the top until enough data has been gathered for the algorithm to be confident that that ratio is what it really deserves.
+Even if a ranked item has 100% positive responses, this ensures it won't be ranked at the top until enough data has been gathered for the algorithm to be confident that that ratio is what it really deserves.
 
 ### Singleton's adjustment
 
