@@ -1,8 +1,75 @@
 import math from 'mathjs';
 import pnormaldist from 'pnormaldist';
 
-// Standard Wilson score interval
-export function wilsonStandard(proportion, sample, zScore) {
+export function isNonNegativeInteger(input) {
+  if (typeof input !== 'number') return false;
+  if (isNaN(input)) return false;
+  if (Math.sign(input) === -1) return false;
+  if (!math.isInteger(input)) return false;
+  return true;
+}
+
+export function isValidOptions(options) {
+  if (typeof options !== 'object') return false;
+  return true;
+}
+
+export function getPopulationScaleFactor(sample, population) {
+  return math.eval(
+    'sqrt(1 - sample / population)',
+    { sample, population },
+  );
+}
+
+/*
+ * credit: Sean Wallis, Survey of English Usage, University College of London
+ * source: https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/
+ */
+export default function (observed, sample, options = {}) {
+  if (!isNonNegativeInteger(observed)) throw new Error('Argument "observed" must be a non-negative whole number');
+  if (!isNonNegativeInteger(sample)) throw new Error('Argument "sample" must be a non-negative whole number');
+  if (observed > sample) throw new Error('Argument "observed" cannot be greater than "sample"');
+
+  // if (options && !isValidOptions(options)) throw new Error('Options not valid');
+
+  const {
+    precision = 20,
+    continuity = false,
+  } = options;
+
+  math.config({
+    number: 'BigNumber',
+    precision,
+  });
+
+  let {
+    confidence = 0.95,
+    population = false,
+  } = options;
+
+  observed = math.bignumber(observed);
+  sample = math.bignumber(sample);
+  confidence = math.bignumber(confidence);
+  population = population ? math.bignmbuer(population) : population;
+
+  // proportion of positive outcomes
+  const proportion = math.eval(
+    'observed / sample',
+    { observed, sample },
+  );
+
+  // if population size given
+  if (population) {
+    sample /= getPopulationScaleFactor(sample, population);
+  }
+
+  // calculate z-score: http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
+  const zScore = pnormaldist(1 - (1 - confidence) / 2);
+
+  return continuity ? wilsonContinuity(proportion, sample, zScore) : wilsonStandard(proportion, sample, zScore);
+}
+
+function wilsonStandard(proportion, sample, zScore) {
   const scope = {
     p: math.bignumber(proportion),
     n: math.bignumber(sample),
@@ -31,8 +98,7 @@ export function wilsonStandard(proportion, sample, zScore) {
   };
 }
 
-// Wilson score interval with continuity correction
-export function wilsonContinuity(proportion, sample, zScore) {
+function wilsonContinuity(proportion, sample, zScore) {
   const scope = {
     p: math.bignumber(proportion),
     n: math.bignumber(sample),
@@ -59,56 +125,4 @@ export function wilsonContinuity(proportion, sample, zScore) {
     center,
     low,
   };
-}
-
-/*
- * credit: Sean Wallis, Survey of English Usage, University College of London
- * source: https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/
- */
-export default function (observed, sample, options = {}) {
-  const {
-    precision = 20,
-    continuity = false,
-  } = options;
-
-  math.config({
-    number: 'BigNumber',
-    precision,
-  });
-
-  let {
-    confidence = 0.95,
-    population = false,
-  } = options;
-
-  observed = math.bignumber(observed);
-  sample = math.bignumber(sample);
-  confidence = math.bignumber(confidence);
-  population = population ? math.bignumber(population) : population;
-
-  // proportion of positive outcomes
-  const proportion = math.eval(
-    'observed / sample',
-    { observed, sample },
-  );
-
-  // if population size given
-  if (population) {
-    // determine scale factor
-    const factor = math.eval(
-      'sqrt(1 - sample / population)',
-      { sample, population },
-    );
-
-    // and adjust sample size
-    sample = math.eval(
-      'sample / factor',
-      { sample, factor },
-    );
-  }
-
-  // calculate z-score: http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
-  const zScore = pnormaldist(1 - (1 - confidence) / 2);
-
-  return continuity ? wilsonContinuity(proportion, sample, zScore) : wilsonStandard(proportion, sample, zScore);
 }

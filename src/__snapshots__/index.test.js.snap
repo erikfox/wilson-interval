@@ -1,6 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`wilson(40, 100, { continuity: true }) 1`] = `
+exports[`Accurate results wilson(1, 1) 1`] = `
+Object {
+  "center": "0.60327465827193852891",
+  "high": "1",
+  "low": "0.20654931654387705783",
+}
+`;
+
+exports[`Accurate results wilson(1, 1, { continuity: true }) 1`] = `
+Object {
+  "center": "0.60327465827193852891",
+  "high": "0.89222638697772573496",
+  "low": "0.054620756136940373989",
+}
+`;
+
+exports[`Accurate results wilson(40, 100) 1`] = `
+Object {
+  "center": "0.40369934977360109507",
+  "high": "0.49799741256064922151",
+  "low": "0.30940128698655296863",
+}
+`;
+
+exports[`Accurate results wilson(40, 100, { continuity: true }) 1`] = `
 Object {
   "center": "0.40369934977360109507",
   "high": "0.50299643878127279972",
@@ -8,10 +32,10 @@ Object {
 }
 `;
 
-exports[`wilson(40,100) 1`] = `
-Object {
-  "center": "0.40369934977360109507",
-  "high": "0.49799741256064922151",
-  "low": "0.30940128698655296863",
-}
-`;
+exports[`getPopulationScaleFactor() getPopulationScaleFactor(100, 227) 1`] = `0.7479781852693075`;
+
+exports[`wilson() throws Error when wilson(..., sample) is invalid = undefined 1`] = `"Argument \\"sample\\" must be a non-negative whole number"`;
+
+exports[`wilson() throws Error when wilson(observed, ...) is invalid = undefined 1`] = `"Argument \\"observed\\" must be a non-negative whole number"`;
+
+exports[`wilson() throws Error when wilson(observed, ...) is invalid greater than wilson(..., sample) 1`] = `"Argument \\"observed\\" cannot be greater than \\"sample\\""`;

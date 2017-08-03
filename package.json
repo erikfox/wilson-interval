@@ -28,7 +28,7 @@
   "main": "./lib/index.js",
   "scripts": {
     "build": "babel ./src/index.js --out-file ./lib/index.js",
-    "test": "jest",
+    "test": "jest --watch --coverage",
     "lint": "eslint src"
   },
   "dependencies": {
