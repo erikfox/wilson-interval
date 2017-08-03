@@ -1,41 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Accurate results wilson(1, 1) 1`] = `
+exports[`wilson() accepts options wilson(5, 100, 227, { confidence: 0.9 }) 1`] = `
 Object {
-  "center": "0.60327465827193852891",
-  "high": "1",
-  "low": "0.20654931654387705783",
+  "center": "0.058925960344442384957",
+  "high": "0.090892465800857729375",
+  "low": "0.02695945488802704054",
 }
 `;
 
-exports[`Accurate results wilson(1, 1, { continuity: true }) 1`] = `
+exports[`wilson() accepts options wilson(5, 100, false, { precision: 6 }) 1`] = `
 Object {
-  "center": "0.60327465827193852891",
-  "high": "0.89222638697772573496",
-  "low": "0.054620756136940373989",
+  "center": "0.0666474",
+  "high": "0.111751",
+  "low": "0.0215437",
 }
 `;
 
-exports[`Accurate results wilson(40, 100) 1`] = `
+exports[`wilson() returns accurate results wilson(5, 100) 1`] = `
 Object {
-  "center": "0.40369934977360109507",
-  "high": "0.49799741256064922151",
-  "low": "0.30940128698655296863",
+  "center": "0.066647073981204927863",
+  "high": "0.11175046869375655694",
+  "low": "0.021543679268653298792",
 }
 `;
 
-exports[`Accurate results wilson(40, 100, { continuity: true }) 1`] = `
+exports[`wilson() returns accurate results wilson(5, 100, 227) 1`] = `
 Object {
-  "center": "0.40369934977360109507",
-  "high": "0.50299643878127279972",
-  "low": "0.30478007165105873939",
+  "center": "0.062568829500944323976",
+  "high": "0.10110044321850152858",
+  "low": "0.024037215783387119365",
 }
 `;
-
-exports[`getPopulationScaleFactor() getPopulationScaleFactor(100, 227) 1`] = `0.7479781852693075`;
-
-exports[`wilson() throws Error when wilson(..., sample) is invalid = undefined 1`] = `"Argument \\"sample\\" must be a non-negative whole number"`;
-
-exports[`wilson() throws Error when wilson(observed, ...) is invalid = undefined 1`] = `"Argument \\"observed\\" must be a non-negative whole number"`;
-
-exports[`wilson() throws Error when wilson(observed, ...) is invalid greater than wilson(..., sample) 1`] = `"Argument \\"observed\\" cannot be greater than \\"sample\\""`;
