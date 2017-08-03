@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/erikfox/wilson-interval/badge.svg?branch=master)](https://coveralls.io/github/erikfox/wilson-interval?branch=master)
+
 # Wilson Interval
 
 A comprehensive module used to calculate the **high bound**, **low bound**, and **center** of a **[Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)**. Features support for known populations (i.e. **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**).

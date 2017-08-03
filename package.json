@@ -28,7 +28,8 @@
   "main": "./lib/index.js",
   "scripts": {
     "build": "babel ./src/index.js --out-file ./lib/index.js",
-    "test": "jest --watch --coverage",
+    "test": "jest --coverage",
+    "test-ci": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "lint": "eslint src"
   },
   "dependencies": {
@@ -40,6 +41,7 @@
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "babel-preset-env": "^1.6.0",
+    "coveralls": "^2.13.1",
     "eslint": "^4.3.0",
     "eslint-plugin-babel": "^4.1.2",
     "eslint-plugin-jest": "^20.0.3",
