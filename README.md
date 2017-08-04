@@ -1,11 +1,15 @@
 # Wilson Interval
 
+[<img src="https://img.shields.io/twitter/follow/erkfox.svg?style=social&label=Say%20hello!" align="right" alt="Twitter @erkfox" />](https://twitter.com/erkfox)
+
 [![license](https://img.shields.io/github/license/erikfox/wilson-interval.svg)](https://opensource.org/licenses/MIT)
 [![npm](https://img.shields.io/npm/v/wilson-interval.svg)](https://www.npmjs.com/package/wilson-interval)
-
 [![npm](https://img.shields.io/npm/dt/wilson-interval.svg?colorB=32CD32)](https://www.npmjs.com/package/wilson-interval)
 [![CircleCI](https://img.shields.io/circleci/project/github/erikfox/wilson-interval.svg?colorB=32CD32)](https://circleci.com/gh/erikfox/wilson-interval/tree/master)
 [![Coveralls](https://img.shields.io/coveralls/erikfox/wilson-interval.svg?colorB=32CD32)]()
+
+[![Pull Requests Welcome](https://img.shields.io/badge/pull_requests-welcome-FF69B4.svg)]()
+[![](https://img.shields.io/github/issues-raw/erikfox/wilson-interval.svg?colorB=FF69B4)](https://github.com/erikfox/wilson-interval/issues)
 
 A comprehensive module used to calculate the **high bound**, **low bound**, and **center** of a **[Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)**. Features support for known populations (i.e. **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**).
 
