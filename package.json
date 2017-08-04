@@ -1,6 +1,6 @@
 {
   "name": "wilson-interval",
-  "version": "4.0.0",
+  "version": "4.0.2",
   "author": "Erik Fox <erik@erikfox.co> (http://erikfox.co)",
   "description": "Used to calculate the high bound, low bound, and center of a Wilson score interval. Features support for continuity correction and Singleton's adjustment.",
   "license": "MIT",
@@ -27,10 +27,12 @@
   ],
   "main": "./lib/index.js",
   "scripts": {
+    "dev": "npm run build -- --watch & npm test -- --watchAll & wait",
     "build": "babel ./src/index.js --out-file ./lib/index.js",
     "test": "jest --coverage",
     "test-ci": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "precommit": "npm run lint && npm run test && npm run build && git add lib"
   },
   "dependencies": {
     "mathjs": "^3.15.0",
@@ -45,6 +47,7 @@
     "eslint": "^4.3.0",
     "eslint-plugin-babel": "^4.1.2",
     "eslint-plugin-jest": "^20.0.3",
+    "husky": "^0.14.3",
     "jest": "^20.0.4"
   }
 }
