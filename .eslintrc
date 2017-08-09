@@ -7,7 +7,9 @@
     "jest/globals": true
   },
   "extends": [
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:flowtype/recommended",
+    "prettier"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -15,8 +17,15 @@
   },
   "plugins": [
     "babel",
-    "jest"
+    "jest",
+    "flowtype",
+    "prettier"
   ],
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
+  },
   "rules": {
     "strict": 0,
     "eqeqeq": [ "error", "allow-null" ],

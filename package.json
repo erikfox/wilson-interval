@@ -28,11 +28,14 @@
   "main": "./lib/index.js",
   "scripts": {
     "dev": "npm run build -- --watch & npm test -- --watchAll & wait",
-    "build": "babel ./src/index.js --out-file ./lib/index.js",
+    "build": "babel src -d lib --ignore test.js",
+    "format": "prettier --single-quote --trailing-comma es5 --write src/**/*.js",
+    "flow": "flow",
     "test": "jest --coverage",
     "test-ci": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "lint": "eslint src",
-    "precommit": "npm run lint && npm run test && npm run build && git add lib"
+    "precommit": "npm run lint && npm run test && npm run build && git add lib",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "mathjs": "^3.15.0",
@@ -43,11 +46,17 @@
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-flow": "^6.23.0",
     "coveralls": "^2.13.1",
     "eslint": "^4.3.0",
+    "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-flowtype": "^2.35.0",
     "eslint-plugin-jest": "^20.0.3",
+    "eslint-plugin-prettier": "^2.2.0",
+    "flow-bin": "^0.52.0",
     "husky": "^0.14.3",
-    "jest": "^20.0.4"
+    "jest": "^20.0.4",
+    "prettier": "^1.5.3"
   }
 }
