@@ -10,5 +10,5 @@ jobs:
         with:
           node-version: 18
       - run: npm install
-      - run: npm build
+      - run: npm run build
       - run: npm test
