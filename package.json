@@ -1,13 +1,13 @@
 {
   "name": "wilson-interval",
-  "version": "4.0.5",
+  "version": "5.0.0",
   "author": "Erik Fox <erik@erikfox.co> (http://erikfox.co)",
   "description": "Used to calculate the high bound, low bound, and center of a Wilson score interval. Features support for continuity correction and Singleton's adjustment.",
   "license": "MIT",
   "homepage": "https://github.com/erikfox/wilson-interval",
   "repository": {
     "type": "git",
-    "url": "https://github.com/erikfox/wilson-interval.git"
+    "url": "git+https://github.com/erikfox/wilson-interval.git"
   },
   "bugs": {
     "url": "https://github.com/erikfox/wilson-interval/issues"
@@ -21,33 +21,23 @@
     "proportion",
     "interval",
     "rank",
-    "votes",
-    "upvotes",
-    "downvotes"
+    "voting",
+    "upvote",
+    "downvote"
   ],
-  "main": "./lib/index.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "npm run build -- --watch & npm test -- --watchAll & wait",
-    "build": "babel ./src/index.js --out-file ./lib/index.js",
-    "test": "jest --coverage",
-    "test-ci": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "lint": "eslint src",
-    "precommit": "npm run lint && npm run test && npm run build && git add lib"
+    "test": "jest --coverage"
   },
   "dependencies": {
-    "mathjs": "^5.10.0",
+    "mathjs": "^12.3.2",
     "pnormaldist": "^1.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^7.2.3",
-    "babel-jest": "^24.8.0",
-    "babel-preset-env": "^1.7.0",
-    "coveralls": "^3.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-babel": "^4.1.2",
-    "eslint-plugin-jest": "^20.0.3",
-    "husky": "^0.14.3",
-    "jest": "^24.8.0"
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-typescript": "^7.23.3",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
   }
 }

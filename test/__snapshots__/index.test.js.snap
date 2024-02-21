@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`wilson() accepts options wilson(5, 100, 227, { confidence: 0.9 }) 1`] = `
-Object {
+{
   "center": "0.058925960344442384957",
   "high": "0.090892465800857729375",
   "low": "0.02695945488802704054",
@@ -9,7 +9,7 @@ Object {
 `;
 
 exports[`wilson() accepts options wilson(5, 100, false, { precision: 6 }) 1`] = `
-Object {
+{
   "center": "0.0666474",
   "high": "0.111751",
   "low": "0.0215437",
@@ -17,7 +17,7 @@ Object {
 `;
 
 exports[`wilson() returns accurate results wilson(5, 100) 1`] = `
-Object {
+{
   "center": "0.066647073981204927863",
   "high": "0.11175046869375655694",
   "low": "0.021543679268653298792",
@@ -25,7 +25,7 @@ Object {
 `;
 
 exports[`wilson() returns accurate results wilson(5, 100, 227) 1`] = `
-Object {
+{
   "center": "0.062568829500944323976",
   "high": "0.10110044321850152858",
   "low": "0.024037215783387119365",
