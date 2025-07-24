@@ -3,6 +3,9 @@ export default function wilson(observed, sample, population = null, confidence =
   sample = Number(sample);
 
   if (Number.isSafeInteger(population)) {
+    if (population <= 0) {
+      throw new Error('Population must be a positive whole number');
+    }
     sample = sample / Math.sqrt(1 - sample / population);
   }
 

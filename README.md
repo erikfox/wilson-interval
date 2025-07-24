@@ -32,8 +32,8 @@ import wilson from 'wilson-interval';
 
 Optional arguments:
 
-- `population` - Default `null`, accepts `Number`. Total population from which sample was taken (to use **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**<sup>[1]</sup>).
-- `confidence` - Default `0.95`, accepts `Number`. Desired confidence level of interval.
+- `population` - Default `null`, accepts `Number > 0`. Total population from which sample was taken (to use **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**<sup>[1]</sup>). Must be a positive whole number.
+- `confidence` - Default `0.95`, accepts `1 > Number > 0`. Desired confidence level of interval as a fractional decimal value between 0 and 1.
 
 #### Example
 ```js
