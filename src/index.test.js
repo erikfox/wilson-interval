@@ -4,8 +4,8 @@ import assert from 'node:assert';
 import { describe } from 'node:test';
 
 describe('wilson()', () => {
-  describe('handles base args', () => {
-    test('wilson(5, 100)', () => {
+  describe('handles required args', () => {
+    test('good `observed` and `sample` input', () => {
       const result = wilson(5, 100);
       
       assert.deepEqual(result, {
@@ -15,21 +15,21 @@ describe('wilson()', () => {
       });
     });
 
-    test('wilson(-1, 100)', () => {
+    test('bad `observed` = -1 input', () => {
       assert.throws(() => wilson(-1, 100), {
         message: 'Observed must be a non-negative whole number'
       });
     });
 
-    test('wilson(5, 0)', () => {
+    test('bad `sample` = 0 input', () => {
       assert.throws(() => wilson(5, 0), {
         message: 'Sample must be a positive whole number'
       });
     });
   });
 
-  describe('handles population arg', () => {
-    test('wilson(5, 100, 227)', () => {
+  describe('handles `population` arg', () => {
+    test('good `population` input', () => {
       const result = wilson(5, 100, 227);
       
       assert.deepEqual(result, { 
@@ -39,15 +39,15 @@ describe('wilson()', () => {
       });
     });
 
-    test('wilson(5, 100, 0)', () => {
+    test('bad `population` = 0 input', () => {
       assert.throws(() => wilson(5, 100, 0), {
         message: 'Population must be a positive whole number'
       });
     });
   });
 
-  describe('handles confidence arg', () => {
-    test('wilson(5, 100, 227, 0.9)', () => {
+  describe('handles `confidence` arg', () => {
+    test('good `confidence` input', () => {
       const result = wilson(5, 100, 227, 0.9);
       
       assert.deepEqual(result, {
@@ -57,8 +57,14 @@ describe('wilson()', () => {
       });
     });
 
-    test('wilson(5, 100, 227, 1)', () => {
+    test('bad `confidence` = 1 input', () => {
       assert.throws(() => wilson(5, 100, 227, 1), {
+        message: 'Confidence must be a decimal between 0 and 1'
+      });
+    });
+
+    test('bad `confidence` = 0 input', () => {
+      assert.throws(() => wilson(5, 100, 227, 0), {
         message: 'Confidence must be a decimal between 0 and 1'
       });
     });
@@ -66,45 +72,45 @@ describe('wilson()', () => {
 });
 
 describe('normalQuantile()', () => {
-  describe('handles base args', () => {
-    test('normalQuantile(0.95)', () => {
+  describe('handles basic usage', () => {
+    test('good `p` input', () => {
       const result = normalQuantile(0.95);
       assert.strictEqual(result, 1.644853625133699);
     });
 
-    test('normalQuantile(0.01)', () => {
+    test('low `p` input', () => {
       const result = normalQuantile(0.01);
       assert.strictEqual(result, -2.326347874388028);
     });
 
-    test('normalQuantile(0.99)', () => {
+    test('high `p` input', () => {
       const result = normalQuantile(0.99);
       assert.strictEqual(result, 2.326347874388028);
     });
   });
 
   describe('handles edge cases', () => {
-    test('normalQuantile(0)', () => {
+    test('`p` = 0 input', () => {
       const result = normalQuantile(0);
       assert.strictEqual(result, -Infinity);
     });
 
-    test('normalQuantile(1)', () => {
+    test('`p` = 1 input', () => {
       const result = normalQuantile(1);
       assert.strictEqual(result, Infinity);
     });
   });
 
   describe('throws on invalid args', () => {
-    test('normalQuantile(-1)', () => {
+    test('bad `p` < 0 input', () => {
       assert.throws(() => normalQuantile(-1), {
-        message: 'The probability p must be between 0 and 1'
+        message: 'p must be a decimal between 0 and 1'
       });
     });
 
-    test('normalQuantile(2)', () => {
+    test('bad `p` > 1 input', () => {
       assert.throws(() => normalQuantile(2), {
-        message: 'The probability p must be between 0 and 1'
+        message: 'p must be a decimal between 0 and 1'
       });
     });
   });
