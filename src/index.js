@@ -1,22 +1,18 @@
 export default function wilson(observed, sample, population = null, confidence = 0.95) {
-  observed = Number(observed);
-  sample = Number(sample);
-  confidence = Number(confidence);
-
-  if (observed < 0) {
+  if (!Number.isSafeInteger(observed) || observed < 0) {
     throw new Error('Observed must be a non-negative whole number');
   }
 
-  if (sample <= 0) {
+  if (!Number.isSafeInteger(sample) || sample <= 0) {
     throw new Error('Sample must be a positive whole number');
   }
 
-  if (confidence <= 0 || confidence >= 1) {
+  if (Number.isNaN(confidence) || confidence <= 0 || confidence >= 1) {
     throw new Error('Confidence must be a decimal between 0 and 1');
   }
 
-  if (Number.isSafeInteger(population)) {
-    if (population <= 0) {
+  if (population !== null) {
+    if (!Number.isSafeInteger(population) || population <= 0) {
       throw new Error('Population must be a positive whole number');
     }
     sample = sample / Math.sqrt(1 - sample / population);
@@ -41,8 +37,8 @@ export default function wilson(observed, sample, population = null, confidence =
 
 // Returns the quantile (inverse CDF) for the standard normal distribution
 export function normalQuantile(p) {
-  if (p < 0 || p > 1) {
-    throw new Error('The probability p must be between 0 and 1');
+  if (Number.isNaN(p) || p < 0 || p > 1) {
+    throw new Error('p must be a decimal between 0 and 1');
   }
   if (p === 0) return -Infinity;
   if (p === 1) return Infinity;
