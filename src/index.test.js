@@ -1,4 +1,4 @@
-import wilson from './index.js';
+import wilson, { normalQuantile } from './index.js';
 import test from 'node:test';
 import assert from 'node:assert';
 import { describe } from 'node:test';
@@ -9,9 +9,9 @@ describe('wilson()', () => {
       const result = wilson(5, 100);
       
       assert.deepEqual(result, {
-        "high": "0.11175046869375655694",
-        "center": "0.066647073981204927863",
-        "low": "0.021543679268653298792",
+        center: 0.06664707421899263,
+        high: 0.11175046929755608,
+        low: 0.02154367914042918
       });
     });
   });
@@ -21,33 +21,66 @@ describe('wilson()', () => {
       const result = wilson(5, 100, 227);
       
       assert.deepEqual(result, { 
-        "center": "0.062568829500944323976",
-        "high": "0.10110044321850152858",
-        "low": "0.024037215783387119365",
+        center: 0.050319696641804315,
+        high: 0.08456089359579015,
+        low: 0.016078499687818482
       });
     });
   });
 
-  describe('handles precision option', () => {
-    test('wilson(5, 100, false, { precision: 6 })', () => {
-      const result = wilson(5, 100, false, { precision: 6 });
-      
-      assert.deepEqual(result, { 
-        "center": "0.0666474",
-        "high": "0.111751",
-        "low": "0.0215437",
-      });
-    });
-  });
-
-  describe('handles confidence option', () => {
-    test('wilson(5, 100, 227, { confidence: 0.9 })', () => {
-      const result = wilson(5, 100, 227, { confidence: 0.9 });
+  describe('handles confidence arg', () => {
+    test('wilson(5, 100, 227, 0.9)', () => {
+      const result = wilson(5, 100, 227, 0.9);
       
       assert.deepEqual(result, {
-        "center": "0.058925960344442384957",
-        "high": "0.090892465800857729375",
-        "low": "0.02695945488802704054",
+        center: 0.04657481789797846,
+        high: 0.0748286439672683,
+        low: 0.018320991828688626
+      });
+    });
+  });
+});
+
+describe('normalQuantile()', () => {
+  describe('handles base args', () => {
+    test('normalQuantile(0.95)', () => {
+      const result = normalQuantile(0.95);
+      assert.strictEqual(result, 1.644853625133699);
+    });
+
+    test('normalQuantile(0.01)', () => {
+      const result = normalQuantile(0.01);
+      assert.strictEqual(result, -2.326347874388028);
+    });
+
+    test('normalQuantile(0.99)', () => {
+      const result = normalQuantile(0.99);
+      assert.strictEqual(result, 2.326347874388028);
+    });
+  });
+
+  describe('handles edge cases', () => {
+    test('normalQuantile(0)', () => {
+      const result = normalQuantile(0);
+      assert.strictEqual(result, -Infinity);
+    });
+
+    test('normalQuantile(1)', () => {
+      const result = normalQuantile(1);
+      assert.strictEqual(result, Infinity);
+    });
+  });
+
+  describe('throws on invalid args', () => {
+    test('normalQuantile(-1)', () => {
+      assert.throws(() => normalQuantile(-1), {
+        message: 'The probability p must be between 0 and 1'
+      });
+    });
+
+    test('normalQuantile(2)', () => {
+      assert.throws(() => normalQuantile(2), {
+        message: 'The probability p must be between 0 and 1'
       });
     });
   });
