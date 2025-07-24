@@ -36,9 +36,5 @@
   "scripts": {
     "test": "node --test src/index.test.js",
     "test:cc": "node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info src/index.test.js"
-  },
-  "dependencies": {
-    "mathjs": "^14.0.0",
-    "pnormaldist": "^1.0.0"
   }
 }

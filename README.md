@@ -25,20 +25,15 @@ import wilson from 'wilson-interval';
 
 ## Usage
 
-### wilson(observed, sample[, population ][, options ]);
+### wilson(observed, sample[, population ][, confidence ]);
 
-- `observed` - Number of observed positive outcomes.
-
-- `sample` - Size of sample.
+- `observed` - Required, accepts `Number`. Count of observed positive outcomes as a whole number.
+- `sample` - Required, accepts `Number`. Size of sample as a whole number.
 
 Optional arguments:
 
-- `population` - Default `false`. Total population from which sample was taken (to use **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**<sup>[1]</sup>).
-
-- `options` - Default `{}`. Options object. Available parameters:
-
-	- `confidence` - Default `0.95`. Desired confidence level of interval.
-	- `precision` - Default `20`. Number of significant figures to use in calculations and output.
+- `population` - Default `null`, accepts `Number`. Total population from which sample was taken (to use **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**<sup>[1]</sup>).
+- `confidence` - Default `0.95`, accepts `Number`. Desired confidence level of interval.
 
 #### Example
 ```js
@@ -47,9 +42,9 @@ return wilson(5, 100);
 returns
 ```json
 {
-  "center": "0.066647073981204927863",
-  "high": "0.11175046869375655694",
-  "low": "0.021543679268653298792",
+  "center": 0.06664707421899263,
+  "high": 0.11175046929755608,
+  "low": 0.02154367914042918
 }
 ```
 
