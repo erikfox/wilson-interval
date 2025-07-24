@@ -3,7 +3,7 @@
 [![license](https://img.shields.io/github/license/erikfox/wilson-interval.svg)](https://opensource.org/licenses/MIT)
 [![npm](https://img.shields.io/npm/v/wilson-interval.svg)](https://www.npmjs.com/package/wilson-interval)
 [![npm](https://img.shields.io/npm/dt/wilson-interval.svg?colorB=32CD32)](https://www.npmjs.com/package/wilson-interval)
-[![Coveralls](https://img.shields.io/coveralls/erikfox/wilson-interval.svg?colorB=32CD32)](https://coveralls.io/github/erikfox/wilson-interval)
+[![codecov](https://codecov.io/github/erikfox/wilson-interval/graph/badge.svg?token=R0A2KJQWU6)](https://codecov.io/github/erikfox/wilson-interval)
 
 
 [![Pull Requests Welcome](https://img.shields.io/badge/pull_requests-welcome-FF69B4.svg)]()
