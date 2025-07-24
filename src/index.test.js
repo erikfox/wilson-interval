@@ -26,6 +26,12 @@ describe('wilson()', () => {
         low: 0.016078499687818482
       });
     });
+
+    test('wilson(5, 100, 0)', () => {
+      assert.throws(() => wilson(5, 100, 0), {
+        message: 'Population must be a positive whole number'
+      });
+    });
   });
 
   describe('handles confidence arg', () => {
