@@ -1,0 +1,23 @@
+# Adapted from https://github.com/codecov/example-javascript
+name: Codecov Test Coverage Report
+on: [pull_request]
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: 21 # Node native test coverage reporting introduced in v20.11.0
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm run test:cc
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: erikfox/wilson-interval
