@@ -14,6 +14,18 @@ describe('wilson()', () => {
         low: 0.02154367914042918
       });
     });
+
+    test('wilson(-1, 100)', () => {
+      assert.throws(() => wilson(-1, 100), {
+        message: 'Observed must be a non-negative whole number'
+      });
+    });
+
+    test('wilson(5, 0)', () => {
+      assert.throws(() => wilson(5, 0), {
+        message: 'Sample must be a positive whole number'
+      });
+    });
   });
 
   describe('handles population arg', () => {
@@ -42,6 +54,12 @@ describe('wilson()', () => {
         center: 0.04657481789797846,
         high: 0.0748286439672683,
         low: 0.018320991828688626
+      });
+    });
+
+    test('wilson(5, 100, 227, 1)', () => {
+      assert.throws(() => wilson(5, 100, 227, 1), {
+        message: 'Confidence must be a decimal between 0 and 1'
       });
     });
   });

@@ -1,6 +1,19 @@
 export default function wilson(observed, sample, population = null, confidence = 0.95) {
   observed = Number(observed);
   sample = Number(sample);
+  confidence = Number(confidence);
+
+  if (observed < 0) {
+    throw new Error('Observed must be a non-negative whole number');
+  }
+
+  if (sample <= 0) {
+    throw new Error('Sample must be a positive whole number');
+  }
+
+  if (confidence <= 0 || confidence >= 1) {
+    throw new Error('Confidence must be a decimal between 0 and 1');
+  }
 
   if (Number.isSafeInteger(population)) {
     if (population <= 0) {
