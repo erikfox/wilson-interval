@@ -27,8 +27,8 @@ import wilson from 'wilson-interval';
 
 ### wilson(observed, sample[, population ][, confidence ]);
 
-- `observed` - Required, accepts `Number`. Count of observed positive outcomes as a whole number.
-- `sample` - Required, accepts `Number`. Size of sample as a whole number.
+- `observed` - Required, accepts `Number >= 0`. Count of observed positive outcomes as a whole number.
+- `sample` - Required, accepts `Number > 0`. Size of sample as a whole number.
 
 Optional arguments:
 
