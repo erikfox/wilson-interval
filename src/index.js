@@ -1,4 +1,4 @@
-import math from 'mathjs';
+import { create, all } from 'mathjs';
 import pnormaldist from 'pnormaldist';
 
 export default function wilson(observed, sample, population = false, options = {}) {
@@ -7,40 +7,36 @@ export default function wilson(observed, sample, population = false, options = {
     precision = 20,
   } = options;
 
-  math.config({ number: 'BigNumber', precision });
+  const math = create(all, { number: 'BigNumber', precision });
 
   observed = math.bignumber(observed);
   sample = math.bignumber(sample);
 
-  const proportion = math.eval('observed / sample', { observed, sample });
+  const proportion = math.evaluate('observed / sample', { observed, sample });
 
   if (population) {
-    sample = math.eval('sample / (sqrt(1 - sample / population))', { sample, population });
+    sample = math.evaluate('sample / (sqrt(1 - sample / population))', { sample, population });
   }
 
-  const zScore = pnormaldist(math.eval('1 - (1 - confidence) / 2', { confidence }));
+  const zScore = pnormaldist(math.evaluate('1 - (1 - confidence) / 2', { confidence }));
 
-  return wilsonInterval(proportion, sample, zScore);
-}
-
-function wilsonInterval(proportion, sample, zScore) {
   const scope = {
     p: math.bignumber(proportion),
     n: math.bignumber(sample),
     z: math.bignumber(zScore),
   };
 
-  const high = math.format(math.eval(
+  const high = math.format(math.evaluate(
     '(p + z * z / (2 * n) + z * sqrt(p * (1 - p) / n + z * z / (4 * (n * n)))) / (1 + z * z / n)',
     scope,
   ));
 
-  const low = math.format(math.eval(
+  const low = math.format(math.evaluate(
     '(p + z * z / (2 * n) - z * sqrt(p * (1 - p) / n + z * z / (4 * (n * n)))) / (1 + z * z / n)',
     scope,
   ));
 
-  const center = math.format(math.eval(
+  const center = math.format(math.evaluate(
     '(p + z * z / (2 * n)) / (1 + z * z / n)',
     scope,
   ));
