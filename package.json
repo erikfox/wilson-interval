@@ -7,7 +7,7 @@
   "homepage": "https://github.com/erikfox/wilson-interval",
   "repository": {
     "type": "git",
-    "url": "https://github.com/erikfox/wilson-interval.git"
+    "url": "git+https://github.com/erikfox/wilson-interval.git"
   },
   "bugs": {
     "url": "https://github.com/erikfox/wilson-interval/issues"
