@@ -4,7 +4,7 @@
   "author": "Erik Fox <eriktfox@gmail.com> (https://erikfox.dev)",
   "description": "Wilson score confidence interval for a binomial proportion, with optional finite population and continuity corrections. Zero dependencies, TypeScript types included.",
   "license": "MIT",
-  "homepage": "https://github.com/erikfox/wilson-interval",
+  "homepage": "https://erikfox.github.io/wilson-interval/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/erikfox/wilson-interval.git"

@@ -10,10 +10,12 @@ All notable changes to this project are documented here. The format is based on 
 - `SECURITY.md`, with vulnerability reports through GitHub private vulnerability reporting.
 - `CODE_OF_CONDUCT.md`, adopting the Contributor Covenant 3.0.
 - An Accuracy section in the README, and credit for Peter J. Acklam's algorithm behind `normalQuantile`.
+- An [interactive demo](https://erikfox.github.io/wilson-interval/), deployed to GitHub Pages from `master`.
 
 ### Changed
 
 - The finite population diagram in the README is now committed to the repository instead of loaded from a third-party site.
+- `package.json` sets `"sideEffects": false`, and `homepage` points to the demo.
 
 ## [6.0.0] - 2026-11-21
 
