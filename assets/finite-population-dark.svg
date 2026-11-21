@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" width="720" height="300" role="img" aria-labelledby="title desc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title id="title">Finite population correction</title>
+<desc id="desc">Three cases. Left: the sample is the whole population, so the interval has zero width. Middle: the sample is a large part of the population, so the interval is narrower. Right: the sample is a tiny part of the population, so the interval is the full Wilson interval.</desc>
+<text x="120.0" y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#f0f6fc">Sample is the population</text>
+<text x="120.0" y="48" text-anchor="middle" font-size="12.5" fill="#9198a1">n = N: no uncertainty</text>
+<rect x="15" y="64" width="210" height="130" rx="10" fill="#151b23" stroke="#3d444d" stroke-width="1.5"/>
+<rect x="21.0" y="70.0" width="198.0" height="118.0" rx="7.0" fill="#4493f8" fill-opacity="0.22" stroke="#4493f8" stroke-width="1.5"/>
+<text x="120.0" y="133.0" text-anchor="middle" font-size="12" fill="#4493f8" font-weight="600">sample</text>
+<line x1="25" y1="236" x2="215" y2="236" stroke="#656c76" stroke-width="1.5"/>
+<line x1="25" y1="232" x2="25" y2="240" stroke="#656c76" stroke-width="1.5"/>
+<text x="25" y="256" text-anchor="middle" font-size="12" fill="#9198a1">0</text>
+<line x1="215" y1="232" x2="215" y2="240" stroke="#656c76" stroke-width="1.5"/>
+<text x="215" y="256" text-anchor="middle" font-size="12" fill="#9198a1">1</text>
+<circle cx="91.5" cy="236" r="5" fill="#4493f8" stroke="#151b23" stroke-width="1.5"/>
+<text x="91.5" y="256" text-anchor="middle" font-size="12" font-style="italic" fill="#f0f6fc">p</text>
+<text x="360.0" y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#f0f6fc">Sample is a large part</text>
+<text x="360.0" y="48" text-anchor="middle" font-size="12.5" fill="#9198a1">n close to N: narrower interval</text>
+<rect x="255" y="64" width="210" height="130" rx="10" fill="#151b23" stroke="#3d444d" stroke-width="1.5"/>
+<rect x="290.0" y="87.3" width="140.0" height="83.4" rx="4.9" fill="#4493f8" fill-opacity="0.22" stroke="#4493f8" stroke-width="1.5"/>
+<text x="265" y="184" font-size="12" fill="#9198a1">population</text>
+<text x="360.0" y="133.0" text-anchor="middle" font-size="12" fill="#4493f8" font-weight="600">sample</text>
+<line x1="265" y1="236" x2="455" y2="236" stroke="#656c76" stroke-width="1.5"/>
+<line x1="265" y1="232" x2="265" y2="240" stroke="#656c76" stroke-width="1.5"/>
+<text x="265" y="256" text-anchor="middle" font-size="12" fill="#9198a1">0</text>
+<line x1="455" y1="232" x2="455" y2="240" stroke="#656c76" stroke-width="1.5"/>
+<text x="455" y="256" text-anchor="middle" font-size="12" fill="#9198a1">1</text>
+<line x1="308.1" y1="236" x2="354.9" y2="236" stroke="#4493f8" stroke-width="6" stroke-linecap="round"/>
+<line x1="308.1" y1="227" x2="308.1" y2="245" stroke="#4493f8" stroke-width="2"/>
+<line x1="354.9" y1="227" x2="354.9" y2="245" stroke="#4493f8" stroke-width="2"/>
+<circle cx="331.5" cy="236" r="5" fill="#4493f8" stroke="#151b23" stroke-width="1.5"/>
+<text x="331.5" y="256" text-anchor="middle" font-size="12" font-style="italic" fill="#f0f6fc">p</text>
+<text x="600.0" y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#f0f6fc">Sample is a tiny part</text>
+<text x="600.0" y="48" text-anchor="middle" font-size="12.5" fill="#9198a1">n ≪ N: full Wilson interval</text>
+<rect x="495" y="64" width="210" height="130" rx="10" fill="#151b23" stroke="#3d444d" stroke-width="1.5"/>
+<rect x="580.2" y="117.2" width="39.6" height="23.6" rx="3.0" fill="#4493f8" fill-opacity="0.22" stroke="#4493f8" stroke-width="1.5"/>
+<text x="505" y="184" font-size="12" fill="#9198a1">population</text>
+<text x="600.0" y="109.2" text-anchor="middle" font-size="12" fill="#4493f8" font-weight="600">sample</text>
+<line x1="505" y1="236" x2="695" y2="236" stroke="#656c76" stroke-width="1.5"/>
+<line x1="505" y1="232" x2="505" y2="240" stroke="#656c76" stroke-width="1.5"/>
+<text x="505" y="256" text-anchor="middle" font-size="12" fill="#9198a1">0</text>
+<line x1="695" y1="232" x2="695" y2="240" stroke="#656c76" stroke-width="1.5"/>
+<text x="695" y="256" text-anchor="middle" font-size="12" fill="#9198a1">1</text>
+<line x1="519.5" y1="236" x2="623.5" y2="236" stroke="#4493f8" stroke-width="6" stroke-linecap="round"/>
+<line x1="519.5" y1="227" x2="519.5" y2="245" stroke="#4493f8" stroke-width="2"/>
+<line x1="623.5" y1="227" x2="623.5" y2="245" stroke="#4493f8" stroke-width="2"/>
+<circle cx="571.5" cy="236" r="5" fill="#4493f8" stroke="#151b23" stroke-width="1.5"/>
+<text x="571.5" y="256" text-anchor="middle" font-size="12" font-style="italic" fill="#f0f6fc">p</text>
+<text x="360.0" y="288" text-anchor="middle" font-size="12" fill="#9198a1">Interval for the same observed proportion p, as the sample covers less of the population</text>
+</svg>

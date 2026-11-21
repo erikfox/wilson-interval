@@ -119,7 +119,10 @@ console.log(ranked.map((item) => `${item.name} ${item.score.toFixed(3)}`));
 
 Pass `population` when your sample is a significant part of a known, finite population. Observing more of the population leaves less uncertainty, so the interval narrows.
 
-> ![Singleton's adjustment](https://corplingstats.files.wordpress.com/2012/04/popsamp1.png?w=538)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/finite-population-dark.svg">
+  <img src="assets/finite-population-light.svg" width="720" alt="Three cases side by side. Left: the sample is the whole population, so the interval around the observed proportion p has zero width. Middle: the sample is a large part of the population, so the interval is narrower. Right: the sample is a tiny part of the population, so the interval is the full Wilson interval.">
+</picture>
 
 > Descriptive statistics summarises the sample as if it were the entire population (left), whereas inferential statistics assumes the sample is a tiny subset of the population (right). If the sample is a large part of the population the confidence interval on observations is reduced (middle).<sup>[1]</sup>
 
