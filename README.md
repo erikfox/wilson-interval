@@ -172,7 +172,7 @@ Calling v6 with the v5 arguments throws instead of silently returning a differen
 wilson() takes an options object as its third argument since v6. Replace wilson(observed, sample, population, confidence) with wilson(observed, sample, { population, confidence }).
 ```
 
-Other changes in v6:
+Other changes in v6 (see the [changelog](CHANGELOG.md) for every release):
 
 - Node.js 22 or later is required.
 - New `continuityCorrection` option.
