@@ -1,0 +1,60 @@
+# Lints the GitHub Actions workflows and Dependabot config.
+# Runs on every PR with no path filter: these are required checks, and a required
+# check from a workflow that was skipped would stay pending and block the merge.
+
+name: Lint workflows
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+# A new push to a PR cancels that PR's run still in progress. Each push to
+# master gets its own group (keyed by SHA), so master runs are never cancelled.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  # Syntax, expressions, runner labels and shellcheck on run: blocks
+  # https://github.com/rhysd/actionlint
+  actionlint:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONLINT_VERSION: 1.7.12
+      # From actionlint_1.7.12_checksums.txt on the release page
+      ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Install actionlint
+      run: |
+        tarball="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+        curl -sSfLO "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/${tarball}"
+        echo "${ACTIONLINT_SHA256}  ${tarball}" | sha256sum -c -
+        tar xzf "${tarball}" actionlint
+    - name: Run actionlint
+      run: ./actionlint -color
+
+  # Security audits: unpinned actions, excessive permissions, template injection, etc.
+  # https://docs.zizmor.sh/
+  zizmor:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Run zizmor
+      uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd # v0.8.1
+      with:
+        version: 1.32.0
+        online-audits: false
+        # No SARIF upload to code scanning, so the job needs no security-events
+        # permission and fails directly on any finding
+        advanced-security: false
+        annotations: true

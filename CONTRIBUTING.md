@@ -26,13 +26,11 @@ Tests use the built-in Node test runner (`node:test`), so there is nothing else 
 npm test
 ```
 
-Coverage must stay at **100%** (Codecov checks this on every pull request). To see a coverage summary locally:
+Coverage must stay at **100%** of lines, branches and functions. CI enforces this: the command below fails if any of the three drops, prints a coverage summary, and writes `lcov.info` for Codecov. It needs Node 22.8 or later.
 
 ```sh
-node --test --experimental-test-coverage src/index.test.js
+npm run test:cc
 ```
-
-`npm run test:cc` writes the same report to `lcov.info`, which is what CI uploads.
 
 TypeScript definitions are hand-written in `src/index.d.ts`. If you change the public API, update them and the fixture in `test/types.ts` (which also checks that invalid calls are rejected), then run:
 
@@ -56,10 +54,26 @@ When you write tests:
 
 1. Fork the repo and create a branch from `master`.
 2. Make your change, with tests.
-3. Run `npm test` and check coverage.
+3. Run `npm test` and `npm run test:cc`.
 4. Open a pull request and fill in the template. Link the issue it fixes (for example `Closes #12`).
 
-CI runs the tests on every supported Node version. A maintainer will review, and may ask for changes before merging. Commits on `master` must be signed; if yours aren't, the maintainer can squash-merge.
+A maintainer will review, and may ask for changes before merging. Commits on `master` must be signed; if yours aren't, the maintainer can squash-merge.
+
+### CI checks
+
+Every pull request runs these checks, and they must pass before it can merge:
+
+| Check | What it checks | Run it locally |
+|---|---|---|
+| `test (22.x)`, `test (24.x)`, `test (latest)` | The test suite on each supported Node release | `npm test` |
+| `coverage` | 100% line, branch and function coverage | `npm run test:cc` |
+| `types` | `src/index.d.ts` against the fixture in `test/types.ts` | `npm run test:types` |
+| `reference` | `scripts/reference.json` matches `scripts/reference.py` | `python3 scripts/reference.py --check scripts/reference.json` |
+| `package` | The files `npm publish` would ship, `package.json` fields and exports, and that the types resolve | `npm pack --dry-run`, then `npx -y publint@0.3.25 --strict` and `npx -y @arethetypeswrong/cli@0.18.5 --pack . --profile esm-only` |
+| `actionlint` | Workflow syntax and expressions | [`actionlint`](https://github.com/rhysd/actionlint) |
+| `zizmor` | Workflow and Dependabot security audits | `uvx zizmor@1.32.0 --offline .` or `pipx run --spec zizmor==1.32.0 zizmor --offline .` |
+
+You only need `actionlint` and `zizmor` if you change files under `.github/`. Codecov also comments on each pull request with a coverage report. It isn't a required check, since `coverage` already enforces 100%.
 
 ## Reporting bugs
 

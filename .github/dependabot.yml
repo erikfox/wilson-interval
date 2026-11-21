@@ -8,3 +8,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Wait a week after a release before proposing it, so a compromised or
+    # broken release has time to be caught and yanked first
+    cooldown:
+      default-days: 7
