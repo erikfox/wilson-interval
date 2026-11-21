@@ -60,10 +60,10 @@ jobs:
             const [maj, min, pat] = process.argv[1].split(".").map(Number);
             const ok = maj > 11 || (maj === 11 && (min > 5 || (min === 5 && pat >= 1)));
             if (!ok) {
-              console.error(`::error::npm ${process.argv[1]} is too old for trusted publishing (needs 11.5.1+)`);
+              console.error("::error::npm " + process.argv[1] + " is too old for trusted publishing (needs 11.5.1+)");
               process.exit(1);
             }
-            console.log(`npm ${process.argv[1]}`);
+            console.log("npm " + process.argv[1]);
           ' "$(npm --version)"
       - run: npm ci
       # Prerelease versions (e.g. 6.0.0-rc.0) go to the "next" dist-tag so they

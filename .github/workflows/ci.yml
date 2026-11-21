@@ -103,10 +103,10 @@ jobs:
           const [{ files }] = JSON.parse(require("fs").readFileSync(0, "utf8"));
           const actual = files.map((f) => f.path).sort();
           if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-            console.error(`::error::npm pack would publish: ${actual.join(", ")}. Expected: ${expected.join(", ")}`);
+            console.error("::error::npm pack would publish: " + actual.join(", ") + ". Expected: " + expected.join(", "));
             process.exit(1);
           }
-          console.log(`npm pack publishes: ${actual.join(", ")}`);
+          console.log("npm pack publishes: " + actual.join(", "));
         '
     # package.json fields and exports point at files that exist; --strict fails on warnings too
     - name: Lint the package with publint
