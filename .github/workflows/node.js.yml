@@ -29,3 +29,6 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - name: Check reference values match scripts/reference.py
+      if: matrix.node-version == '24.x'
+      run: python3 -I scripts/reference.py | diff - scripts/reference.json

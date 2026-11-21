@@ -37,7 +37,14 @@ node --test --experimental-test-coverage src/index.test.js
 When you write tests:
 
 - **Fixing a bug:** add a test that fails before your fix and passes after it.
-- **Expected values come from an independent calculation,** not from running this module and copying the output. Python's standard library (`statistics.NormalDist`) is a good reference. Compare floating-point results with a tolerance (see `assertInterval` in `src/index.test.js`), not exact equality.
+- **Expected values come from an independent calculation,** not from running this module and copying the output. [`scripts/reference.py`](scripts/reference.py) computes them with Python's standard library (`statistics.NormalDist`). Add a case there, then regenerate the table the tests read:
+
+  ```sh
+  python3 scripts/reference.py > scripts/reference.json
+  ```
+
+  CI fails if the two are out of sync.
+- **Compare floating-point results with a tolerance** (see `assertClose` in `src/index.test.js`), not exact equality.
 
 ## Pull requests
 

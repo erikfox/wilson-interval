@@ -2,6 +2,24 @@ import wilson, { normalQuantile } from './index.js';
 import test from 'node:test';
 import assert from 'node:assert';
 import { describe } from 'node:test';
+import { readFileSync } from 'node:fs';
+
+// Expected values from an independent implementation (Python stdlib
+// statistics.NormalDist); regenerate with:
+//   python3 scripts/reference.py > scripts/reference.json
+const reference = JSON.parse(
+  readFileSync(new URL('../scripts/reference.json', import.meta.url), 'utf8')
+);
+
+// normalQuantile() has ~1e-9 relative error, so values derived from it are
+// compared with a relative tolerance. A relative check stays meaningful for
+// tiny bounds (e.g. 1e-10 at n = 1e9) and still requires an exact match for 0.
+function assertClose(actual, expected, label, tolerance = 1e-8) {
+  assert.ok(
+    Math.abs(actual - expected) <= tolerance * Math.abs(expected),
+    `${label}: expected ${expected}, got ${actual}`
+  );
+}
 
 // normalQuantile() has ~1e-9 relative error, so compare with a tolerance
 function assertInterval(actual, expected, tolerance = 1e-9) {
@@ -20,6 +38,19 @@ function assertBounds({ low, center, high }, p) {
   assert.ok(low <= center && center <= high, `center ${center} not within [${low}, ${high}]`);
   assert.ok(high <= 1, `high ${high} > 1`);
 }
+
+describe('wilson() reference values', () => {
+  for (const { args, expected } of reference.wilson) {
+    const { observed, sample, population, confidence } = args;
+    const call = `wilson(${observed}, ${sample}, ${population}, ${confidence})`;
+    test(call, () => {
+      const actual = wilson(observed, sample, population, confidence);
+      for (const key of ['low', 'center', 'high']) {
+        assertClose(actual[key], expected[key], `${call}.${key}`);
+      }
+    });
+  }
+});
 
 describe('wilson() bounds', () => {
   test('observed = 0 gives low exactly 0', () => {
@@ -55,13 +86,11 @@ describe('wilson() bounds', () => {
 describe('wilson()', () => {
   describe('handles required args', () => {
     test('good `observed` and `sample` input', () => {
-      const result = wilson(5, 100);
-      
-      assert.deepEqual(result, {
-        center: 0.06664707421899263,
-        high: 0.11175046929755608,
-        low: 0.02154367914042918
-      });
+      assertInterval(wilson(5, 100), {
+        center: 0.06664707419314354,
+        high: 0.11175046923191911,
+        low: 0.02154367915436798
+      }, 1e-8);
     });
 
     test('bad `observed` = -1 input', () => {
@@ -158,20 +187,17 @@ describe('wilson()', () => {
 });
 
 describe('normalQuantile()', () => {
-  describe('handles basic usage', () => {
-    test('good `p` input', () => {
-      const result = normalQuantile(0.95);
-      assert.strictEqual(result, 1.644853625133699);
-    });
+  describe('matches reference quantiles', () => {
+    for (const { p, expected } of reference.normalQuantile) {
+      test(`normalQuantile(${p}) ≈ ${expected}`, () => {
+        assertClose(normalQuantile(p), expected, `p = ${p}`);
+      });
+    }
 
-    test('low `p` input', () => {
-      const result = normalQuantile(0.01);
-      assert.strictEqual(result, -2.326347874388028);
-    });
-
-    test('high `p` input', () => {
-      const result = normalQuantile(0.99);
-      assert.strictEqual(result, 2.326347874388028);
+    test('is antisymmetric about 0.5', () => {
+      for (const p of [1e-10, 0.001, 0.02425, 0.1, 0.3]) {
+        assertClose(normalQuantile(1 - p), -normalQuantile(p), `p = ${p}`);
+      }
     });
   });
 
