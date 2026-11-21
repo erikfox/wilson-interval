@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/v/wilson-interval.svg)](https://www.npmjs.com/package/wilson-interval)
 [![npm](https://img.shields.io/npm/dt/wilson-interval.svg?colorB=32CD32)](https://www.npmjs.com/package/wilson-interval)
 [![codecov](https://codecov.io/github/erikfox/wilson-interval/graph/badge.svg?token=R0A2KJQWU6)](https://codecov.io/github/erikfox/wilson-interval)
-[![Pull Requests Welcome](https://img.shields.io/badge/pull_requests-welcome-FF69B4.svg)]()
+[![Pull Requests Welcome](https://img.shields.io/badge/pull_requests-welcome-FF69B4.svg)](CONTRIBUTING.md)
 [![](https://img.shields.io/github/issues-raw/erikfox/wilson-interval.svg?colorB=FF69B4)](https://github.com/erikfox/wilson-interval/issues)
 
 A comprehensive module used to calculate the **high bound**, **low bound**, and **center** of a **[Wilson score interval](http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)**. Features support for known populations (i.e. **[Singleton's adjustment](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)**).
