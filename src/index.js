@@ -1,4 +1,29 @@
-export default function wilson(observed, sample, population = null, confidence = 0.95) {
+const OPTIONS = ['population', 'confidence'];
+
+const MIGRATION_ERROR =
+  'wilson() takes an options object as its third argument since v6. ' +
+  'Replace wilson(observed, sample, population, confidence) with ' +
+  'wilson(observed, sample, { population, confidence }).';
+
+export default function wilson(observed, sample, options = {}) {
+  // v5 took population and confidence as positional arguments; catch those
+  // calls explicitly rather than misreading them
+  if (arguments.length > 3 || typeof options === 'number' || options === null) {
+    throw new Error(MIGRATION_ERROR);
+  }
+
+  if (typeof options !== 'object' || Array.isArray(options)) {
+    throw new Error('Options must be an object');
+  }
+
+  for (const key of Object.keys(options)) {
+    if (!OPTIONS.includes(key)) {
+      throw new Error(`Unknown option "${key}" (expected one of: ${OPTIONS.join(', ')})`);
+    }
+  }
+
+  const { population, confidence = 0.95 } = options;
+
   if (!Number.isSafeInteger(observed) || observed < 0) {
     throw new Error('Observed must be a non-negative whole number');
   }
@@ -18,7 +43,7 @@ export default function wilson(observed, sample, population = null, confidence =
   const p = observed / sample;
   let n = sample;
 
-  if (population !== null) {
+  if (population !== undefined) {
     if (!Number.isSafeInteger(population) || population <= 0) {
       throw new Error('Population must be a positive whole number');
     }

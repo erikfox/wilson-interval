@@ -42,9 +42,10 @@ function assertBounds({ low, center, high }, p) {
 describe('wilson() reference values', () => {
   for (const { args, expected } of reference.wilson) {
     const { observed, sample, population, confidence } = args;
-    const call = `wilson(${observed}, ${sample}, ${population}, ${confidence})`;
+    const options = population === null ? { confidence } : { population, confidence };
+    const call = `wilson(${observed}, ${sample}, ${JSON.stringify(options)})`;
     test(call, () => {
-      const actual = wilson(observed, sample, population, confidence);
+      const actual = wilson(observed, sample, options);
       for (const key of ['low', 'center', 'high']) {
         assertClose(actual[key], expected[key], `${call}.${key}`);
       }
@@ -54,23 +55,23 @@ describe('wilson() reference values', () => {
 
 describe('wilson() bounds', () => {
   test('observed = 0 gives low exactly 0', () => {
-    assert.strictEqual(wilson(0, 1e6, 1000001).low, 0);
-    assert.strictEqual(wilson(0, 1, 10, 0.99).low, 0);
+    assert.strictEqual(wilson(0, 1e6, { population: 1000001 }).low, 0);
+    assert.strictEqual(wilson(0, 1, { population: 10, confidence: 0.99 }).low, 0);
   });
 
   test('observed = sample gives high exactly 1', () => {
-    assert.strictEqual(wilson(100, 100, 101).high, 1);
+    assert.strictEqual(wilson(100, 100, { population: 101 }).high, 1);
     assert.strictEqual(wilson(1e6, 1e6).high, 1);
-    assert.strictEqual(wilson(1, 1, null, 0.99).high, 1);
+    assert.strictEqual(wilson(1, 1, { confidence: 0.99 }).high, 1);
   });
 
   test('0 <= low <= p <= high <= 1 across a grid of inputs', () => {
     const confidences = [0.5, 0.8, 0.9, 0.95, 0.99, 0.999];
     for (let sample = 1; sample <= 120; sample++) {
-      for (const population of [null, sample, sample + 1, sample * 2, sample * 50]) {
+      for (const population of [undefined, sample, sample + 1, sample * 2, sample * 50]) {
         for (const confidence of confidences) {
           for (let observed = 0; observed <= sample; observed++) {
-            assertBounds(wilson(observed, sample, population, confidence), observed / sample);
+            assertBounds(wilson(observed, sample, { population, confidence }), observed / sample);
           }
         }
       }
@@ -112,11 +113,11 @@ describe('wilson()', () => {
     });
   });
 
-  describe('handles `population` arg', () => {
+  describe('handles `population` option', () => {
     // Reference values from an independent Python implementation:
     // p unchanged, effective n' = n / ν², ν² = (N − n) / (N − 1).
     test('good `population` input', () => {
-      assertInterval(wilson(5, 100, 227), {
+      assertInterval(wilson(5, 100, { population: 227 }), {
         center: 0.05950886403022134,
         high: 0.0925865290106502,
         low: 0.026431199049792478
@@ -125,33 +126,33 @@ describe('wilson()', () => {
 
     test('`population` = `sample` + 1 with one draw is unadjusted', () => {
       // Exact finite-population factor for n = 1 is 1, so n' = n
-      assertInterval(wilson(1, 1, 2), wilson(1, 1));
+      assertInterval(wilson(1, 1, { population: 2 }), wilson(1, 1));
     });
 
     test('`sample` = `population` collapses the interval to p', () => {
-      assert.deepEqual(wilson(5, 100, 100), { high: 0.05, center: 0.05, low: 0.05 });
+      assert.deepEqual(wilson(5, 100, { population: 100 }), { high: 0.05, center: 0.05, low: 0.05 });
     });
 
     test('very large `population` matches no population', () => {
-      assertInterval(wilson(5, 100, 1e12), wilson(5, 100));
+      assertInterval(wilson(5, 100, { population: 1e12 }), wilson(5, 100));
     });
 
     test('bad `population` = 0 input', () => {
-      assert.throws(() => wilson(5, 100, 0), {
+      assert.throws(() => wilson(5, 100, { population: 0 }), {
         message: 'Population must be a positive whole number'
       });
     });
 
     test('bad `sample` > `population` input', () => {
-      assert.throws(() => wilson(5, 100, 50), {
+      assert.throws(() => wilson(5, 100, { population: 50 }), {
         message: 'Sample must not exceed population'
       });
     });
   });
 
-  describe('handles `confidence` arg', () => {
+  describe('handles `confidence` option', () => {
     test('good `confidence` input', () => {
-      assertInterval(wilson(5, 100, 227, 0.9), {
+      assertInterval(wilson(5, 100, { population: 227, confidence: 0.9 }), {
         center: 0.05673921186382623,
         high: 0.084248814348019,
         low: 0.02922960937963347
@@ -159,7 +160,7 @@ describe('wilson()', () => {
     });
 
     test('`confidence` very close to 1 stays finite', () => {
-      const result = wilson(5, 100, null, 1 - 1e-16);
+      const result = wilson(5, 100, { confidence: 1 - 1e-16 });
       for (const key of ['low', 'center', 'high']) {
         assert.ok(Number.isFinite(result[key]), `${key} is ${result[key]}`);
       }
@@ -167,21 +168,79 @@ describe('wilson()', () => {
     });
 
     test('bad `confidence` = 1 input', () => {
-      assert.throws(() => wilson(5, 100, 227, 1), {
+      assert.throws(() => wilson(5, 100, { population: 227, confidence: 1 }), {
         message: 'Confidence must be a decimal between 0 and 1'
       });
     });
 
     test('bad `confidence` = 0 input', () => {
-      assert.throws(() => wilson(5, 100, 227, 0), {
+      assert.throws(() => wilson(5, 100, { population: 227, confidence: 0 }), {
         message: 'Confidence must be a decimal between 0 and 1'
       });
     });
 
     test('bad `confidence` = "0.9" (string) input', () => {
-      assert.throws(() => wilson(5, 100, null, '0.9'), {
+      assert.throws(() => wilson(5, 100, { confidence: '0.9' }), {
         message: 'Confidence must be a decimal between 0 and 1'
       });
+    });
+  });
+});
+
+describe('wilson() options', () => {
+  const MIGRATION = /^wilson\(\) takes an options object as its third argument/;
+
+  test('omitted, undefined and empty options all use the defaults', () => {
+    const expected = wilson(5, 100, { confidence: 0.95 });
+    assert.deepEqual(wilson(5, 100), expected);
+    assert.deepEqual(wilson(5, 100, undefined), expected);
+    assert.deepEqual(wilson(5, 100, {}), expected);
+    assert.deepEqual(wilson(5, 100, { population: undefined, confidence: undefined }), expected);
+  });
+
+  test('accepts an object without a prototype', () => {
+    const options = Object.assign(Object.create(null), { population: 227 });
+    assert.deepEqual(wilson(5, 100, options), wilson(5, 100, { population: 227 }));
+  });
+
+  test('v5 positional population (number) throws a migration error', () => {
+    assert.throws(() => wilson(5, 100, 227), {
+      message: 'wilson() takes an options object as its third argument since v6. ' +
+        'Replace wilson(observed, sample, population, confidence) with ' +
+        'wilson(observed, sample, { population, confidence }).'
+    });
+  });
+
+  test('v5 positional null population throws a migration error', () => {
+    assert.throws(() => wilson(5, 100, null, 0.9), { message: MIGRATION });
+    assert.throws(() => wilson(5, 100, null), { message: MIGRATION });
+  });
+
+  test('a fourth argument throws a migration error', () => {
+    assert.throws(() => wilson(5, 100, undefined, 0.9), { message: MIGRATION });
+    assert.throws(() => wilson(5, 100, {}, 0.9), { message: MIGRATION });
+  });
+
+  test('non-object options throw', () => {
+    for (const options of ['0.9', true, [], () => {}, 0n]) {
+      assert.throws(() => wilson(5, 100, options), {
+        message: 'Options must be an object'
+      }, `options = ${String(options)}`);
+    }
+  });
+
+  test('unknown option keys throw', () => {
+    assert.throws(() => wilson(5, 100, { confidnce: 0.9 }), {
+      message: 'Unknown option "confidnce" (expected one of: population, confidence)'
+    });
+  });
+
+  test('null population or confidence throws', () => {
+    assert.throws(() => wilson(5, 100, { population: null }), {
+      message: 'Population must be a positive whole number'
+    });
+    assert.throws(() => wilson(5, 100, { confidence: null }), {
+      message: 'Confidence must be a decimal between 0 and 1'
     });
   });
 });
