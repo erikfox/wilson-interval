@@ -43,7 +43,7 @@ When you write tests:
   python3 scripts/reference.py > scripts/reference.json
   ```
 
-  CI fails if the two are out of sync.
+  CI runs `python3 scripts/reference.py --check scripts/reference.json` and fails if the two are out of sync.
 - **Compare floating-point results with a tolerance** (see `assertClose` in `src/index.test.js`), not exact equality.
 
 ## Pull requests

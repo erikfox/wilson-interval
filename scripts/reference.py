@@ -5,6 +5,11 @@ Standard library only. Writes JSON to stdout; the committed copy lives in
 scripts/reference.json and CI checks that it matches this script's output:
 
     python3 scripts/reference.py > scripts/reference.json
+    python3 scripts/reference.py --check scripts/reference.json
+
+--check compares numbers with a 1e-12 relative tolerance rather than byte for
+byte, because the platform math library (macOS vs glibc) can change the last
+digit or two. The JS tests use a much looser 1e-8.
 
 This does not port src/index.js. The Wilson score interval is the set of
 proportions pi with |p - pi| <= z * sqrt(pi * (1 - pi) / n), so the bounds are
@@ -72,8 +77,11 @@ WILSON_CASES = [
 QUANTILE_CASES = [1e-10, 0.001, 0.01, 0.02425, 0.025, 0.05, 0.1, 0.5, 0.9, 0.95, 0.975, 0.99, 0.995, 0.999]
 
 
-def main():
-    out = {
+CHECK_TOLERANCE = 1e-12
+
+
+def build():
+    return {
         "wilson": [
             {
                 "args": {"observed": o, "sample": s, "population": n, "confidence": c},
@@ -83,9 +91,48 @@ def main():
         ],
         "normalQuantile": [{"p": p, "expected": NormalDist().inv_cdf(p)} for p in QUANTILE_CASES],
     }
+
+
+def mismatches(expected, actual, path="$"):
+    """Yield a description of each place where two JSON values differ."""
+    if isinstance(expected, dict) and isinstance(actual, dict):
+        if expected.keys() != actual.keys():
+            yield f"{path}: keys {sorted(actual)} != {sorted(expected)}"
+            return
+        for key in expected:
+            yield from mismatches(expected[key], actual[key], f"{path}.{key}")
+    elif isinstance(expected, list) and isinstance(actual, list):
+        if len(expected) != len(actual):
+            yield f"{path}: {len(actual)} items != {len(expected)}"
+            return
+        for i, (e, a) in enumerate(zip(expected, actual)):
+            yield from mismatches(e, a, f"{path}[{i}]")
+    elif isinstance(expected, float) or isinstance(actual, float):
+        if not isinstance(actual, (int, float)) or abs(actual - expected) > CHECK_TOLERANCE * abs(expected):
+            yield f"{path}: committed {actual!r}, script gives {expected!r}"
+    elif expected != actual or type(expected) is not type(actual):
+        yield f"{path}: committed {actual!r}, script gives {expected!r}"
+
+
+def main(argv):
+    out = build()
+    if argv[:1] == ["--check"] and len(argv) == 2:
+        with open(argv[1]) as f:
+            committed = json.load(f)
+        problems = list(mismatches(out, committed))
+        for problem in problems:
+            print(problem, file=sys.stderr)
+        if problems:
+            print(f"{argv[1]} is out of date; regenerate it with: python3 scripts/reference.py > {argv[1]}", file=sys.stderr)
+            return 1
+        return 0
+    if argv:
+        print("usage: reference.py [--check FILE]", file=sys.stderr)
+        return 2
     json.dump(out, sys.stdout, indent=2)
     sys.stdout.write("\n")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main(sys.argv[1:]))
