@@ -4,7 +4,7 @@
   "author": "Erik Fox <eriktfox@gmail.com> (https://erikfox.dev)",
   "description": "Wilson score confidence interval for a binomial proportion, with optional finite population and continuity corrections. Zero dependencies, TypeScript types included.",
   "license": "MIT",
-  "homepage": "https://github.com/erikfox/wilson-interval",
+  "homepage": "https://erikfox.github.io/wilson-interval/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/erikfox/wilson-interval.git"
@@ -51,6 +51,7 @@
     "test:types": "npx -y -p typescript@7.0.2 tsc -p test/tsconfig.json",
     "test:cc": "node --test --experimental-test-coverage --test-coverage-lines=100 --test-coverage-branches=100 --test-coverage-functions=100 --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info src/index.test.js",
     "lint": "npx -y @biomejs/biome@2.6.8 ci . --error-on-warnings",
-    "format": "npx -y @biomejs/biome@2.6.8 format --write ."
+    "format": "npx -y @biomejs/biome@2.6.8 format --write .",
+    "build:demo": "rm -rf _site && mkdir _site && cp demo/index.html demo/demo.css demo/demo.js _site/ && cp src/index.js _site/wilson-interval.js"
   }
 }

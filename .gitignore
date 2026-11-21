@@ -3,3 +3,4 @@ node_modules
 coverage
 lcov.info
 __pycache__/
+_site

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>wilson-interval demo</title>
+    <meta name="description" content="Try the wilson-interval npm package: the Wilson score confidence interval for a binomial proportion, with optional finite population and continuity corrections.">
+    <link rel="stylesheet" href="demo.css">
+    <script type="module" src="demo.js"></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>wilson-interval</h1>
+        <p class="lede">
+          The <a href="https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval">Wilson score interval</a>
+          for a binomial proportion, computed in your browser by the
+          <a href="https://www.npmjs.com/package/wilson-interval">npm package</a>. Change any value to update the result.
+        </p>
+      </header>
+
+      <form id="inputs" novalidate>
+        <div class="field">
+          <label for="observed">Observed</label>
+          <input id="observed" name="observed" type="number" inputmode="numeric" min="0" step="1" value="5" required aria-describedby="observed-hint">
+          <p class="hint" id="observed-hint">Positive outcomes</p>
+        </div>
+        <div class="field">
+          <label for="sample">Sample</label>
+          <input id="sample" name="sample" type="number" inputmode="numeric" min="1" step="1" value="100" required aria-describedby="sample-hint">
+          <p class="hint" id="sample-hint">Total trials</p>
+        </div>
+        <div class="field">
+          <label for="confidence">Confidence</label>
+          <input id="confidence" name="confidence" type="number" inputmode="decimal" min="0" max="1" step="0.01" value="0.95" aria-describedby="confidence-hint">
+          <p class="hint" id="confidence-hint">Between 0 and 1</p>
+        </div>
+        <div class="field">
+          <label for="population">Population</label>
+          <input id="population" name="population" type="number" inputmode="numeric" min="1" step="1" placeholder="None" aria-describedby="population-hint">
+          <p class="hint" id="population-hint">Optional, finite</p>
+        </div>
+        <div class="field field-check">
+          <input id="continuityCorrection" name="continuityCorrection" type="checkbox">
+          <label for="continuityCorrection">Continuity correction</label>
+        </div>
+      </form>
+
+      <section class="result" aria-labelledby="result-heading">
+        <h2 id="result-heading" class="visually-hidden">Result</h2>
+        <div id="output" aria-live="polite">
+          <dl class="bounds">
+            <div><dt>Low</dt><dd id="low">–</dd></div>
+            <div><dt>Center</dt><dd id="center">–</dd></div>
+            <div><dt>High</dt><dd id="high">–</dd></div>
+          </dl>
+          <p class="observed-ratio">Observed proportion <span id="ratio">–</span></p>
+        </div>
+        <p id="error" class="error" role="alert" hidden></p>
+
+        <svg id="axis" class="axis" viewBox="0 0 600 76" role="img" aria-labelledby="axis-title">
+          <title id="axis-title">The interval on a scale from 0 to 1</title>
+          <line class="axis-line" x1="20" y1="34" x2="580" y2="34"></line>
+          <g id="ticks"></g>
+          <line id="band" class="band" x1="20" y1="34" x2="20" y2="34"></line>
+          <line id="center-mark" class="center-mark" x1="20" y1="22" x2="20" y2="46"></line>
+          <circle id="ratio-mark" class="ratio-mark" cx="20" cy="34" r="6"></circle>
+        </svg>
+        <p class="legend">
+          <span class="key key-band" aria-hidden="true"></span> interval
+          <span class="key key-center" aria-hidden="true"></span> center
+          <span class="key key-ratio" aria-hidden="true"></span> observed proportion
+        </p>
+      </section>
+
+      <section class="code" aria-labelledby="code-heading">
+        <h2 id="code-heading">The same call in code</h2>
+        <pre><code id="snippet"></code></pre>
+      </section>
+
+      <footer>
+        <a href="https://github.com/erikfox/wilson-interval">Source on GitHub</a>
+        <span aria-hidden="true">·</span>
+        <a href="https://github.com/erikfox/wilson-interval#readme">Documentation</a>
+        <span aria-hidden="true">·</span>
+        <span>MIT license</span>
+      </footer>
+    </main>
+  </body>
+</html>

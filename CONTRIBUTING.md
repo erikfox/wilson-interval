@@ -61,6 +61,17 @@ npm run lint     # check, as CI does
 npm run format   # fix formatting in place
 ```
 
+## Demo page
+
+The demo in `demo/` is plain HTML, CSS and JavaScript with no build step. It imports the library as `./wilson-interval.js`, which `npm run build:demo` copies from `src/index.js` into `_site/` alongside the page. To try it locally:
+
+```sh
+npm run build:demo
+python3 -m http.server --directory _site
+```
+
+Then open <http://localhost:8000>. The [Pages workflow](.github/workflows/pages.yml) runs the same build and deploys it on every push to `master` that touches the demo or `src/index.js`.
+
 ## Pull requests
 
 1. Fork the repo and create a branch from `master`.

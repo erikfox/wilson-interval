@@ -12,6 +12,8 @@ The low bound is a popular way to rank items by their share of positive votes, a
 
 No dependencies, ES module only, TypeScript definitions included. Requires Node.js 22 or later.
 
+**[Try it in your browser →](https://erikfox.github.io/wilson-interval/)**
+
 ## Install
 
 ```sh
