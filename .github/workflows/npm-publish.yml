@@ -20,8 +20,18 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 24
+      - name: Check the release tag matches package.json
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VERSION="v$(node -p "require('./package.json').version")"
+          if [ "$TAG" != "$VERSION" ]; then
+            echo "::error::Release tag $TAG does not match package.json version $VERSION"
+            exit 1
+          fi
       - run: npm ci
       - run: npm test
+      - run: npm run test:types
 
   publish-npm:
     needs: build
@@ -38,4 +48,12 @@ jobs:
       # Trusted publishing needs npm 11.5.1 or later
       - run: npm install -g npm@latest
       - run: npm ci
-      - run: npm publish
+      # Prerelease versions (e.g. 6.0.0-rc.0) go to the "next" dist-tag so they
+      # don't become "latest"; npm refuses to publish them without a tag anyway
+      - name: Publish
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          case "$VERSION" in
+            *-*) npm publish --tag next ;;
+            *) npm publish ;;
+          esac
