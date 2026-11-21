@@ -347,3 +347,7 @@ describe('normalQuantile()', () => {
     });
   });
 });
+// THROWAWAY: fails on purpose to check that branch protection blocks the merge. Do not merge.
+test('deliberately failing test (branch protection check)', () => {
+  assert.strictEqual(1, 2);
+});
