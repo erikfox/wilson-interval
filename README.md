@@ -1,11 +1,10 @@
 # Wilson Interval
 
-[![license](https://img.shields.io/github/license/erikfox/wilson-interval.svg)](LICENSE)
+[![CI](https://github.com/erikfox/wilson-interval/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/erikfox/wilson-interval/actions/workflows/ci.yml?query=branch%3Amaster)
 [![npm](https://img.shields.io/npm/v/wilson-interval.svg)](https://www.npmjs.com/package/wilson-interval)
-[![npm downloads](https://img.shields.io/npm/d18m/wilson-interval.svg?colorB=32CD32)](https://www.npmjs.com/package/wilson-interval)
+[![npm downloads](https://img.shields.io/npm/dm/wilson-interval.svg)](https://www.npmjs.com/package/wilson-interval)
 [![codecov](https://codecov.io/github/erikfox/wilson-interval/graph/badge.svg?token=R0A2KJQWU6)](https://codecov.io/github/erikfox/wilson-interval)
-[![Pull Requests Welcome](https://img.shields.io/badge/pull_requests-welcome-FF69B4.svg)](CONTRIBUTING.md)
-[![issues](https://img.shields.io/github/issues-raw/erikfox/wilson-interval.svg?colorB=FF69B4)](https://github.com/erikfox/wilson-interval/issues)
+[![license](https://img.shields.io/github/license/erikfox/wilson-interval.svg)](LICENSE)
 
 Calculates the **low bound**, **center** and **high bound** of a **[Wilson score interval](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)** for a binomial proportion, with optional **finite population correction** (Singleton's adjustment) and **continuity correction**.
 
@@ -120,7 +119,10 @@ console.log(ranked.map((item) => `${item.name} ${item.score.toFixed(3)}`));
 
 Pass `population` when your sample is a significant part of a known, finite population. Observing more of the population leaves less uncertainty, so the interval narrows.
 
-> ![Singleton's adjustment](https://corplingstats.files.wordpress.com/2012/04/popsamp1.png?w=538)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/finite-population-dark.svg">
+  <img src="assets/finite-population-light.svg" width="720" alt="Three cases side by side. Left: the sample is the whole population, so the interval around the observed proportion p has zero width. Middle: the sample is a large part of the population, so the interval is narrower. Right: the sample is a tiny part of the population, so the interval is the full Wilson interval.">
+</picture>
 
 > Descriptive statistics summarises the sample as if it were the entire population (left), whereas inferential statistics assumes the sample is a tiny subset of the population (right). If the sample is a large part of the population the confidence interval on observations is reduced (middle).<sup>[1]</sup>
 
@@ -145,7 +147,7 @@ console.log(wilson(5, 100, { population: 100 }));
 
 ### Continuity correction
 
-The Wilson interval approximates a discrete distribution with a continuous one. The continuity correction compensates for this by computing the lower bound from `p − 1/(2n)` and the upper bound from `p + 1/(2n)` (clamped to [0, 1]), which makes the interval more conservative.<sup>[3][4]</sup> It is the same interval as R's `prop.test(x, n, correct = TRUE)`.
+The Wilson interval approximates a discrete distribution with a continuous one. The continuity correction compensates for this by computing the lower bound from `p − 1/(2n)` and the upper bound from `p + 1/(2n)` (clamped to [0, 1]), which makes the interval more conservative.<sup>[3][4]</sup> It is the interval R's `prop.test(x, n, correct = TRUE)` reports, except when `observed` is exactly half of `sample` (see [Accuracy](#accuracy)).
 
 - `center` is not changed by the correction.
 - With `population`, the bounds use the population-adjusted sample size, and the `1/(2n)` shift uses the original sample size.<sup>[3]</sup> If `sample` equals `population`, the interval still collapses to `p`.
@@ -170,7 +172,7 @@ Calling v6 with the v5 arguments throws instead of silently returning a differen
 wilson() takes an options object as its third argument since v6. Replace wilson(observed, sample, population, confidence) with wilson(observed, sample, { population, confidence }).
 ```
 
-Other changes in v6:
+Other changes in v6 (see the [changelog](CHANGELOG.md) for every release):
 
 - Node.js 22 or later is required.
 - New `continuityCorrection` option.
@@ -180,7 +182,7 @@ Other changes in v6:
 
 ## Also exported
 
-`normalQuantile(p)` returns the quantile (inverse CDF) of the standard normal distribution, which `wilson()` uses for its critical value.
+`normalQuantile(p)` returns the quantile (inverse CDF) of the standard normal distribution, which `wilson()` uses for its critical value. It uses Peter J. Acklam's rational approximation, which has a relative error below 1.15 × 10⁻⁹.<sup>[5]</sup>
 
 ```js
 import { normalQuantile } from 'wilson-interval';
@@ -192,6 +194,13 @@ console.log(normalQuantile(0.975));
 1.959963986120195
 ```
 
+## Accuracy
+
+- **Independent reference values.** Expected test values are not copied from this module's output. [`scripts/reference.py`](scripts/reference.py) computes them with Python's standard library: it solves the Wilson quadratic directly, takes the critical value from `statistics.NormalDist`, and checks the continuity correction against Newcombe's closed form and the worked examples in his Table I.<sup>[4]</sup> The [`reference` CI job](.github/workflows/ci.yml) fails if [`scripts/reference.json`](scripts/reference.json) is out of sync with the script.
+- **Agrees with R.** Without `population`, the continuity-corrected interval matches R's [`prop.test(x, n, correct = TRUE)`](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/prop.test.html) to about nine significant digits, the accuracy of `normalQuantile`. The one difference: `prop.test` only applies the correction when it doesn't exceed the distance from its null proportion (0.5 by default), so when `observed` is exactly half of `sample` it returns the uncorrected interval and this module doesn't.
+- **100% coverage, enforced.** The [`coverage` CI job](.github/workflows/ci.yml) runs `npm run test:cc`, which fails if line, branch or function coverage drops below 100%.
+- **Published with provenance.** Releases are published to npm from a [GitHub Actions workflow](.github/workflows/npm-publish.yml) using trusted publishing, so each version since 5.1.1 carries a [provenance attestation](https://docs.npmjs.com/generating-provenance-statements) linking it to the commit and workflow run that built it.
+
 ## Sources
 
 <sup>[1]</sup> [Wallis, Sean 2012. *Inferential Statistics — and other animals*. London: Survey of English Usage, UCL.](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)
@@ -201,6 +210,8 @@ console.log(normalQuantile(0.975));
 <sup>[3]</sup> [Wallis, Sean 2019. *Correcting for continuity*. London: Survey of English Usage, UCL.](https://corplingstats.wordpress.com/2019/04/27/correcting-for-continuity/)
 
 <sup>[4]</sup> [Newcombe, Robert G. 1998. *Two-sided confidence intervals for the single proportion: comparison of seven methods*. Statistics in Medicine 17(8): 857–872.](https://doi.org/10.1002/(SICI)1097-0258(19980430)17:8%3C857::AID-SIM777%3E3.0.CO;2-E)
+
+<sup>[5]</sup> Acklam, Peter J. Rational approximation of the normal quantile function, originally published at `home.online.no/~pjacklam/notes/invnorm/`, which is no longer online. The algorithm, coefficients and error bound are reproduced in [*Acklam's Algorithm for the Inverse Normal CDF*](https://stackedboxes.org/2017/05/01/acklams-normal-quantile-function/), StackedBoxes.org, 2017.
 
 ___
 *Special thanks to [Sean Wallis](https://profiles.ucl.ac.uk/21175-sean-wallis), Principal Research Fellow and Deputy Director of the Survey of English Usage, UCL, for his help transcribing equations, and for the blog posts that inspired many of this module's features.*

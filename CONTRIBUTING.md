@@ -2,6 +2,8 @@
 
 Thanks for helping out. Bug reports, fixes, docs improvements and feature ideas are all welcome.
 
+Everyone taking part is expected to follow the [code of conduct](CODE_OF_CONDUCT.md).
+
 ## Ground rules
 
 - **No runtime dependencies.** The package is a single ES module with no build step. Changes that add a dependency or a compile step are unlikely to be accepted.
@@ -78,6 +80,8 @@ You only need `actionlint` and `zizmor` if you change files under `.github/`. Co
 ## Reporting bugs
 
 Use the [bug report form](https://github.com/erikfox/wilson-interval/issues/new?template=bug_report.yml). For a wrong-result bug, include the exact call, the output you got, and the value you expected along with where that value comes from.
+
+To report a security vulnerability, don't open an issue: follow the [security policy](SECURITY.md) instead.
 
 ## License
 
