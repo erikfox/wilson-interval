@@ -79,6 +79,8 @@ You only need `actionlint` and `zizmor` if you change files under `.github/`. Co
 
 Use the [bug report form](https://github.com/erikfox/wilson-interval/issues/new?template=bug_report.yml). For a wrong-result bug, include the exact call, the output you got, and the value you expected along with where that value comes from.
 
+To report a security vulnerability, don't open an issue: follow the [security policy](SECURITY.md) instead.
+
 ## License
 
 By contributing, you agree that your contributions are licensed under the [MIT License](LICENSE).

@@ -7,6 +7,7 @@ All notable changes to this project are documented here. The format is based on 
 ### Added
 
 - `CHANGELOG.md`.
+- `SECURITY.md`, with vulnerability reports through GitHub private vulnerability reporting.
 - An Accuracy section in the README, and credit for Peter J. Acklam's algorithm behind `normalQuantile`.
 
 ### Changed
