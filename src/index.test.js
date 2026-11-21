@@ -7,9 +7,7 @@ import { readFileSync } from 'node:fs';
 // Expected values from an independent implementation (Python stdlib
 // statistics.NormalDist); regenerate with:
 //   python3 scripts/reference.py > scripts/reference.json
-const reference = JSON.parse(
-  readFileSync(new URL('../scripts/reference.json', import.meta.url), 'utf8')
-);
+const reference = JSON.parse(readFileSync(new URL('../scripts/reference.json', import.meta.url), 'utf8'));
 
 // normalQuantile() has ~1e-9 relative error, so values derived from it are
 // compared with a relative tolerance. A relative check stays meaningful for
@@ -17,7 +15,7 @@ const reference = JSON.parse(
 function assertClose(actual, expected, label, tolerance = 1e-8) {
   assert.ok(
     Math.abs(actual - expected) <= tolerance * Math.abs(expected),
-    `${label}: expected ${expected}, got ${actual}`
+    `${label}: expected ${expected}, got ${actual}`,
   );
 }
 
@@ -26,7 +24,7 @@ function assertInterval(actual, expected, tolerance = 1e-9) {
   for (const key of ['low', 'center', 'high']) {
     assert.ok(
       Math.abs(actual[key] - expected[key]) < tolerance,
-      `${key}: expected ${expected[key]}, got ${actual[key]}`
+      `${key}: expected ${expected[key]}, got ${actual[key]}`,
     );
   }
   assert.ok(actual.low <= actual.center && actual.center <= actual.high, 'low <= center <= high');
@@ -89,28 +87,32 @@ describe('wilson() bounds', () => {
 describe('wilson()', () => {
   describe('handles required args', () => {
     test('good `observed` and `sample` input', () => {
-      assertInterval(wilson(5, 100), {
-        center: 0.06664707419314354,
-        high: 0.11175046923191911,
-        low: 0.02154367915436798
-      }, 1e-8);
+      assertInterval(
+        wilson(5, 100),
+        {
+          center: 0.06664707419314354,
+          high: 0.11175046923191911,
+          low: 0.02154367915436798,
+        },
+        1e-8,
+      );
     });
 
     test('bad `observed` = -1 input', () => {
       assert.throws(() => wilson(-1, 100), {
-        message: 'Observed must be a non-negative whole number'
+        message: 'Observed must be a non-negative whole number',
       });
     });
 
     test('bad `sample` = 0 input', () => {
       assert.throws(() => wilson(5, 0), {
-        message: 'Sample must be a positive whole number'
+        message: 'Sample must be a positive whole number',
       });
     });
 
     test('bad `observed` > `sample` input', () => {
       assert.throws(() => wilson(11, 10), {
-        message: 'Observed must not exceed sample'
+        message: 'Observed must not exceed sample',
       });
     });
   });
@@ -122,7 +124,7 @@ describe('wilson()', () => {
       assertInterval(wilson(5, 100, { population: 227 }), {
         center: 0.05950886403022134,
         high: 0.0925865290106502,
-        low: 0.026431199049792478
+        low: 0.026431199049792478,
       });
     });
 
@@ -141,13 +143,13 @@ describe('wilson()', () => {
 
     test('bad `population` = 0 input', () => {
       assert.throws(() => wilson(5, 100, { population: 0 }), {
-        message: 'Population must be a positive whole number'
+        message: 'Population must be a positive whole number',
       });
     });
 
     test('bad `sample` > `population` input', () => {
       assert.throws(() => wilson(5, 100, { population: 50 }), {
-        message: 'Sample must not exceed population'
+        message: 'Sample must not exceed population',
       });
     });
   });
@@ -157,7 +159,7 @@ describe('wilson()', () => {
       assertInterval(wilson(5, 100, { population: 227, confidence: 0.9 }), {
         center: 0.05673921186382623,
         high: 0.084248814348019,
-        low: 0.02922960937963347
+        low: 0.02922960937963347,
       });
     });
 
@@ -171,19 +173,19 @@ describe('wilson()', () => {
 
     test('bad `confidence` = 1 input', () => {
       assert.throws(() => wilson(5, 100, { population: 227, confidence: 1 }), {
-        message: 'Confidence must be a decimal between 0 and 1'
+        message: 'Confidence must be a decimal between 0 and 1',
       });
     });
 
     test('bad `confidence` = 0 input', () => {
       assert.throws(() => wilson(5, 100, { population: 227, confidence: 0 }), {
-        message: 'Confidence must be a decimal between 0 and 1'
+        message: 'Confidence must be a decimal between 0 and 1',
       });
     });
 
     test('bad `confidence` = "0.9" (string) input', () => {
       assert.throws(() => wilson(5, 100, { confidence: '0.9' }), {
-        message: 'Confidence must be a decimal between 0 and 1'
+        message: 'Confidence must be a decimal between 0 and 1',
       });
     });
   });
@@ -218,7 +220,7 @@ describe('wilson() continuity correction', () => {
     for (const options of [{}, { population: 227 }, { confidence: 0.99 }]) {
       assert.strictEqual(
         wilson(5, 100, { ...options, continuityCorrection: true }).center,
-        wilson(5, 100, options).center
+        wilson(5, 100, options).center,
       );
     }
   });
@@ -229,10 +231,11 @@ describe('wilson() continuity correction', () => {
   });
 
   test('`sample` = `population` still collapses the interval to p', () => {
-    assert.deepEqual(
-      wilson(5, 100, { population: 100, continuityCorrection: true }),
-      { high: 0.05, center: 0.05, low: 0.05 }
-    );
+    assert.deepEqual(wilson(5, 100, { population: 100, continuityCorrection: true }), {
+      high: 0.05,
+      center: 0.05,
+      low: 0.05,
+    });
   });
 
   test('false is the same as omitting it', () => {
@@ -241,9 +244,13 @@ describe('wilson() continuity correction', () => {
 
   test('non-boolean values throw', () => {
     for (const continuityCorrection of [1, 'true', null]) {
-      assert.throws(() => wilson(5, 100, { continuityCorrection }), {
-        message: 'Continuity correction must be true or false'
-      }, `continuityCorrection = ${continuityCorrection}`);
+      assert.throws(
+        () => wilson(5, 100, { continuityCorrection }),
+        {
+          message: 'Continuity correction must be true or false',
+        },
+        `continuityCorrection = ${continuityCorrection}`,
+      );
     }
   });
 });
@@ -266,9 +273,10 @@ describe('wilson() options', () => {
 
   test('v5 positional population (number) throws a migration error', () => {
     assert.throws(() => wilson(5, 100, 227), {
-      message: 'wilson() takes an options object as its third argument since v6. ' +
+      message:
+        'wilson() takes an options object as its third argument since v6. ' +
         'Replace wilson(observed, sample, population, confidence) with ' +
-        'wilson(observed, sample, { population, confidence }).'
+        'wilson(observed, sample, { population, confidence }).',
     });
   });
 
@@ -284,24 +292,28 @@ describe('wilson() options', () => {
 
   test('non-object options throw', () => {
     for (const options of ['0.9', true, [], () => {}, 0n]) {
-      assert.throws(() => wilson(5, 100, options), {
-        message: 'Options must be an object'
-      }, `options = ${String(options)}`);
+      assert.throws(
+        () => wilson(5, 100, options),
+        {
+          message: 'Options must be an object',
+        },
+        `options = ${String(options)}`,
+      );
     }
   });
 
   test('unknown option keys throw', () => {
     assert.throws(() => wilson(5, 100, { confidnce: 0.9 }), {
-      message: 'Unknown option "confidnce" (expected one of: population, confidence, continuityCorrection)'
+      message: 'Unknown option "confidnce" (expected one of: population, confidence, continuityCorrection)',
     });
   });
 
   test('null population or confidence throws', () => {
     assert.throws(() => wilson(5, 100, { population: null }), {
-      message: 'Population must be a positive whole number'
+      message: 'Population must be a positive whole number',
     });
     assert.throws(() => wilson(5, 100, { confidence: null }), {
-      message: 'Confidence must be a decimal between 0 and 1'
+      message: 'Confidence must be a decimal between 0 and 1',
     });
   });
 });
@@ -336,13 +348,13 @@ describe('normalQuantile()', () => {
   describe('throws on invalid args', () => {
     test('bad `p` < 0 input', () => {
       assert.throws(() => normalQuantile(-1), {
-        message: 'p must be a decimal between 0 and 1'
+        message: 'p must be a decimal between 0 and 1',
       });
     });
 
     test('bad `p` > 1 input', () => {
       assert.throws(() => normalQuantile(2), {
-        message: 'p must be a decimal between 0 and 1'
+        message: 'p must be a decimal between 0 and 1',
       });
     });
   });
