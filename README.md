@@ -1,11 +1,10 @@
 # Wilson Interval
 
-[![license](https://img.shields.io/github/license/erikfox/wilson-interval.svg)](LICENSE)
+[![CI](https://github.com/erikfox/wilson-interval/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/erikfox/wilson-interval/actions/workflows/ci.yml?query=branch%3Amaster)
 [![npm](https://img.shields.io/npm/v/wilson-interval.svg)](https://www.npmjs.com/package/wilson-interval)
-[![npm downloads](https://img.shields.io/npm/d18m/wilson-interval.svg?colorB=32CD32)](https://www.npmjs.com/package/wilson-interval)
+[![npm downloads](https://img.shields.io/npm/dm/wilson-interval.svg)](https://www.npmjs.com/package/wilson-interval)
 [![codecov](https://codecov.io/github/erikfox/wilson-interval/graph/badge.svg?token=R0A2KJQWU6)](https://codecov.io/github/erikfox/wilson-interval)
-[![Pull Requests Welcome](https://img.shields.io/badge/pull_requests-welcome-FF69B4.svg)](CONTRIBUTING.md)
-[![issues](https://img.shields.io/github/issues-raw/erikfox/wilson-interval.svg?colorB=FF69B4)](https://github.com/erikfox/wilson-interval/issues)
+[![license](https://img.shields.io/github/license/erikfox/wilson-interval.svg)](LICENSE)
 
 Calculates the **low bound**, **center** and **high bound** of a **[Wilson score interval](https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval)** for a binomial proportion, with optional **finite population correction** (Singleton's adjustment) and **continuity correction**.
 
