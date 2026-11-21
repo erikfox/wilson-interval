@@ -34,6 +34,12 @@ node --test --experimental-test-coverage src/index.test.js
 
 `npm run test:cc` writes the same report to `lcov.info`, which is what CI uploads.
 
+TypeScript definitions are hand-written in `src/index.d.ts`. If you change the public API, update them and the fixture in `test/types.ts` (which also checks that invalid calls are rejected), then run:
+
+```sh
+npm run test:types
+```
+
 When you write tests:
 
 - **Fixing a bug:** add a test that fails before your fix and passes after it.

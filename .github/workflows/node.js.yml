@@ -32,3 +32,6 @@ jobs:
     - name: Check reference values match scripts/reference.py
       if: matrix.node-version == '24.x'
       run: python3 -I scripts/reference.py --check scripts/reference.json
+    - name: Type-check src/index.d.ts
+      if: matrix.node-version == '24.x'
+      run: npm run test:types

@@ -10,5 +10,5 @@ Closes #
 - [ ] Coverage is still 100% (`node --test --experimental-test-coverage src/index.test.js`)
 - [ ] Bug fixes include a test that fails without the fix
 - [ ] New or changed expected values come from an independent reference (not copied from this module's output)
-- [ ] README updated if the public API or behavior changed
+- [ ] README and `src/index.d.ts` updated if the public API or behavior changed (`npm run test:types`)
 - [ ] No new runtime dependencies

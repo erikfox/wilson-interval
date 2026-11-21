@@ -30,14 +30,20 @@
   },
   "type": "module",
   "main": "./src/index.js",
+  "types": "./src/index.d.ts",
   "files": [
-    "src/index.js"
+    "src/index.js",
+    "src/index.d.ts"
   ],
   "exports": {
-    ".": "./src/index.js"
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    }
   },
   "scripts": {
     "test": "node --test src/index.test.js",
+    "test:types": "npx -y -p typescript@7.0.2 tsc -p test/tsconfig.json",
     "test:cc": "node --test --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info src/index.test.js"
   }
 }
