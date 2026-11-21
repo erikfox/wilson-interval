@@ -78,3 +78,34 @@ jobs:
         slug: erikfox/wilson-interval
         files: lcov.info
         fail_ci_if_error: false
+
+  # Checks what `npm publish` would ship, before a release does it for real.
+  package:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 24
+    # Fails if a file is added to or missing from the tarball
+    - name: Check the published files
+      run: |
+        npm pack --dry-run --json | node -e '
+          const expected = ["LICENSE", "README.md", "package.json", "src/index.d.ts", "src/index.js"];
+          const [{ files }] = JSON.parse(require("fs").readFileSync(0, "utf8"));
+          const actual = files.map((f) => f.path).sort();
+          if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+            console.error(`::error::npm pack would publish: ${actual.join(", ")}. Expected: ${expected.join(", ")}`);
+            process.exit(1);
+          }
+          console.log(`npm pack publishes: ${actual.join(", ")}`);
+        '
+    # package.json fields and exports point at files that exist; --strict fails on warnings too
+    - name: Lint the package with publint
+      run: npx -y publint@0.3.25 --strict
+    # The types resolve for ESM consumers (node16, bundler). The package is ESM-only,
+    # so the CommonJS require() resolution is skipped rather than reported.
+    - name: Check the types with arethetypeswrong
+      run: npx -y @arethetypeswrong/cli@0.18.5 --pack . --profile esm-only
