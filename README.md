@@ -69,6 +69,12 @@ Uses a known, finite population size to inform the degree of uncertainty of the 
 1. Your sample size represents a significant portion of the population.
 2. You have an imperfect original sample, from which you can only verify a subsample. The original sample can serve as a "population" to produce a verification interval to be combined with the first.<sup>[2]</sup>
 
+**HOW IT'S CALCULATED:**
+
+The observed proportion `p = observed / sample` is unchanged. The sample size used for the interval is divided by ν², where ν = √((N − n) / (N − 1)) is the finite population correction.<sup>[1]</sup> If `sample` equals `population`, the interval collapses to `p`.
+
+> **Note:** The worked example in *Coping with imperfect data*<sup>[2]</sup> (5 of 100 from a population of 227, giving 0.0240–0.1011) divides n by ν instead of ν². This module follows the ν² adjustment described in [1], which matches the variance of sampling without replacement, so it returns 0.0264–0.0926 for that example.
+
 ## Sources
 
 <sup>[1]</sup> [Wallis, Sean 2012. *Inferential Statistics — and other animals*. London: Survey of English Usage, UCL.](https://corplingstats.wordpress.com/2012/04/30/inferential-statistics/)

@@ -7,26 +7,47 @@ export default function wilson(observed, sample, population = null, confidence =
     throw new Error('Sample must be a positive whole number');
   }
 
-  if (Number.isNaN(confidence) || confidence <= 0 || confidence >= 1) {
+  if (observed > sample) {
+    throw new Error('Observed must not exceed sample');
+  }
+
+  if (typeof confidence !== 'number' || Number.isNaN(confidence) || confidence <= 0 || confidence >= 1) {
     throw new Error('Confidence must be a decimal between 0 and 1');
   }
+
+  const p = observed / sample;
+  let n = sample;
 
   if (population !== null) {
     if (!Number.isSafeInteger(population) || population <= 0) {
       throw new Error('Population must be a positive whole number');
     }
-    sample = sample / Math.sqrt(1 - sample / population);
+    if (sample > population) {
+      throw new Error('Sample must not exceed population');
+    }
+    // The whole population was observed, so there is no uncertainty
+    if (sample === population) {
+      return { high: p, center: p, low: p };
+    }
+    // Finite population correction: the standard deviation scales by
+    // ν = √((N − n) / (N − 1)), the exact hypergeometric factor, which is
+    // equivalent to dividing n by ν². p is unchanged.
+    // See Wallis (2012), "Inferential statistics — and other animals".
+    n = sample * (population - 1) / (population - sample);
   }
 
-  const zScore = normalQuantile(1 - (1 - confidence) / 2);
+  // Computed from the lower tail so confidence near 1 keeps its precision
+  // (1 − (1 − confidence) / 2 can round to exactly 1 and give z = Infinity)
+  const z = -normalQuantile((1 - confidence) / 2);
 
-  const p = observed / sample;
-  const n = sample;
-  const z = zScore;
+  const denominator = 1 + z * z / n;
+  const center = (p + z * z / (2 * n)) / denominator;
+  const margin = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / denominator;
 
-  const high = ((p + z * z / (2 * n) + z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))) / (1 + z * z / n));
-  const low = ((p + z * z / (2 * n) - z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))) / (1 + z * z / n));
-  const center = ((p + z * z / (2 * n)) / (1 + z * z / n));
+  // The bounds are exactly 0 at p = 0 and exactly 1 at p = 1; elsewhere, clamp
+  // away floating-point drift so that 0 ≤ low ≤ p ≤ high ≤ 1 always holds
+  const low = observed === 0 ? 0 : Math.max(0, Math.min(center - margin, p));
+  const high = observed === sample ? 1 : Math.min(1, Math.max(center + margin, p));
 
   return {
     high,
