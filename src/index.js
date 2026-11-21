@@ -8,6 +8,7 @@ const MIGRATION_ERROR =
 export default function wilson(observed, sample, options = {}) {
   // v5 took population and confidence as positional arguments; catch those
   // calls explicitly rather than misreading them
+  // biome-ignore lint/complexity/noArguments: counts surplus v5-style arguments without adding a parameter to the signature
   if (arguments.length > 3 || typeof options === 'number' || options === null) {
     throw new Error(MIGRATION_ERROR);
   }
@@ -62,7 +63,7 @@ export default function wilson(observed, sample, options = {}) {
     // ν = √((N − n) / (N − 1)), the exact hypergeometric factor, which is
     // equivalent to dividing n by ν². p is unchanged.
     // See Wallis (2012), "Inferential statistics — and other animals".
-    n = sample * (population - 1) / (population - sample);
+    n = (sample * (population - 1)) / (population - sample);
   }
 
   // Computed from the lower tail so confidence near 1 keeps its precision
@@ -97,9 +98,9 @@ export default function wilson(observed, sample, options = {}) {
 
 // Wilson score interval for proportion p with sample size n and critical value z
 function scoreInterval(p, n, z) {
-  const denominator = 1 + z * z / n;
-  const center = (p + z * z / (2 * n)) / denominator;
-  const margin = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / denominator;
+  const denominator = 1 + (z * z) / n;
+  const center = (p + (z * z) / (2 * n)) / denominator;
+  const margin = (z * Math.sqrt((p * (1 - p)) / n + (z * z) / (4 * n * n))) / denominator;
   return { center, low: center - margin, high: center + margin };
 }
 
@@ -117,6 +118,7 @@ export function normalQuantile(p) {
   if (p === 1) return Infinity;
 
   // Coefficients in rational approximations
+  // biome-ignore format: coefficients aligned as published by Acklam
   const a = [
     -3.969683028665376e+01,
      2.209460984245205e+02,
@@ -125,6 +127,7 @@ export function normalQuantile(p) {
     -3.066479806614716e+01,
      2.506628277459239e+00
   ];
+  // biome-ignore format: coefficients aligned as published by Acklam
   const b = [
     -5.447609879822406e+01,
      1.615858368580409e+02,
@@ -132,6 +135,7 @@ export function normalQuantile(p) {
      6.680131188771972e+01,
     -1.328068155288572e+01
   ];
+  // biome-ignore format: coefficients aligned as published by Acklam
   const c = [
     -7.784894002430293e-03,
     -3.223964580411365e-01,
@@ -140,6 +144,7 @@ export function normalQuantile(p) {
      4.374664141464968e+00,
      2.938163982698783e+00
   ];
+  // biome-ignore format: coefficients aligned as published by Acklam
   const d = [
      7.784695709041462e-03,
      3.224671290700398e-01,
@@ -155,18 +160,24 @@ export function normalQuantile(p) {
   if (p < plow) {
     // Rational approximation for lower region
     q = Math.sqrt(-2 * Math.log(p));
-    return (((((c[0]*q + c[1])*q + c[2])*q + c[3])*q + c[4])*q + c[5]) /
-           ((((d[0]*q + d[1])*q + d[2])*q + d[3])*q + 1);
+    return (
+      (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) /
+      ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
+    );
   } else if (phigh < p) {
     // Rational approximation for upper region
     q = Math.sqrt(-2 * Math.log(1 - p));
-    return -(((((c[0]*q + c[1])*q + c[2])*q + c[3])*q + c[4])*q + c[5]) /
-             ((((d[0]*q + d[1])*q + d[2])*q + d[3])*q + 1);
+    return (
+      -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) /
+      ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1)
+    );
   } else {
     // Rational approximation for central region
     q = p - 0.5;
     r = q * q;
-    return (((((a[0]*r + a[1])*r + a[2])*r + a[3])*r + a[4])*r + a[5])*q /
-           (((((b[0]*r + b[1])*r + b[2])*r + b[3])*r + b[4])*r + 1);
+    return (
+      ((((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q) /
+      (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1)
+    );
   }
 }

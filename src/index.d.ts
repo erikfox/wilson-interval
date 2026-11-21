@@ -48,11 +48,7 @@ export interface WilsonInterval {
  *
  * wilson(5, 100, { population: 227, confidence: 0.9 });
  */
-export default function wilson(
-  observed: number,
-  sample: number,
-  options?: WilsonOptions
-): WilsonInterval;
+export default function wilson(observed: number, sample: number, options?: WilsonOptions): WilsonInterval;
 
 /**
  * Quantile (inverse CDF) of the standard normal distribution, computed with

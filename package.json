@@ -48,6 +48,8 @@
   "scripts": {
     "test": "node --test src/index.test.js",
     "test:types": "npx -y -p typescript@7.0.2 tsc -p test/tsconfig.json",
-    "test:cc": "node --test --experimental-test-coverage --test-coverage-lines=100 --test-coverage-branches=100 --test-coverage-functions=100 --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info src/index.test.js"
+    "test:cc": "node --test --experimental-test-coverage --test-coverage-lines=100 --test-coverage-branches=100 --test-coverage-functions=100 --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info src/index.test.js",
+    "lint": "npx -y @biomejs/biome@2.6.8 ci . --error-on-warnings",
+    "format": "npx -y @biomejs/biome@2.6.8 format --write ."
   }
 }
