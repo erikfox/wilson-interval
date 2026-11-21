@@ -144,7 +144,7 @@ console.log(wilson(5, 100, { population: 100 }));
 
 ### Continuity correction
 
-The Wilson interval approximates a discrete distribution with a continuous one. The continuity correction compensates for this by computing the lower bound from `p − 1/(2n)` and the upper bound from `p + 1/(2n)` (clamped to [0, 1]), which makes the interval more conservative.<sup>[3][4]</sup> It is the same interval as R's `prop.test(x, n, correct = TRUE)`.
+The Wilson interval approximates a discrete distribution with a continuous one. The continuity correction compensates for this by computing the lower bound from `p − 1/(2n)` and the upper bound from `p + 1/(2n)` (clamped to [0, 1]), which makes the interval more conservative.<sup>[3][4]</sup> It is the interval R's `prop.test(x, n, correct = TRUE)` reports, except when `observed` is exactly half of `sample` (see [Accuracy](#accuracy)).
 
 - `center` is not changed by the correction.
 - With `population`, the bounds use the population-adjusted sample size, and the `1/(2n)` shift uses the original sample size.<sup>[3]</sup> If `sample` equals `population`, the interval still collapses to `p`.
@@ -190,6 +190,13 @@ console.log(normalQuantile(0.975));
 ```text
 1.959963986120195
 ```
+
+## Accuracy
+
+- **Independent reference values.** Expected test values are not copied from this module's output. [`scripts/reference.py`](scripts/reference.py) computes them with Python's standard library: it solves the Wilson quadratic directly, takes the critical value from `statistics.NormalDist`, and checks the continuity correction against Newcombe's closed form and the worked examples in his Table I.<sup>[4]</sup> The [`reference` CI job](.github/workflows/ci.yml) fails if [`scripts/reference.json`](scripts/reference.json) is out of sync with the script.
+- **Agrees with R.** Without `population`, the continuity-corrected interval matches R's [`prop.test(x, n, correct = TRUE)`](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/prop.test.html) to about nine significant digits, the accuracy of `normalQuantile`. The one difference: `prop.test` only applies the correction when it doesn't exceed the distance from its null proportion (0.5 by default), so when `observed` is exactly half of `sample` it returns the uncorrected interval and this module doesn't.
+- **100% coverage, enforced.** The [`coverage` CI job](.github/workflows/ci.yml) runs `npm run test:cc`, which fails if line, branch or function coverage drops below 100%.
+- **Published with provenance.** Releases are published to npm from a [GitHub Actions workflow](.github/workflows/npm-publish.yml) using trusted publishing, so each version since 5.1.1 carries a [provenance attestation](https://docs.npmjs.com/generating-provenance-statements) linking it to the commit and workflow run that built it.
 
 ## Sources
 
