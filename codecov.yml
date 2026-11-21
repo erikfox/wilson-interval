@@ -1,17 +1,16 @@
+# Codecov posts the coverage comment and the codecov/project status on PRs.
+# The 100% rule itself is enforced by `npm run test:cc` in the CI coverage job,
+# so this status mirrors it but isn't a required check.
+# Reference: https://docs.codecov.com/docs/codecovyml-reference
 coverage:
   status:
     project:
       default:   # default is the status check's name, not default settings
-        target: 100% 
-        threshold: 1%
-        base: auto 
-        flags: 
-          - unit
-        paths: 
+        target: 100%
+        threshold: 0%
+        base: auto
+        paths:
           - "src"
-       # advanced settings
-        branches: 
-          - master
         if_ci_failed: error #success, failure, error, ignore
         informational: false
         only_pulls: false

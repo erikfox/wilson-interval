@@ -1,0 +1,80 @@
+# Runs on every push to master and every pull request against it.
+# Each check is its own job so it shows up as its own named status check,
+# and can be marked as required in branch protection.
+# Node.js docs: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: test (${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x, latest]
+        # Supported releases: https://nodejs.org/en/about/previous-releases ("latest" is the newest Current release)
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        persist-credentials: false
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v7
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm test
+
+  types:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 24
+        cache: 'npm'
+    - name: Type-check src/index.d.ts
+      run: npm run test:types
+
+  reference:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        persist-credentials: false
+    - name: Check reference values match scripts/reference.py
+      run: python3 -I scripts/reference.py --check scripts/reference.json
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 24
+        cache: 'npm'
+    - run: npm ci
+    # Fails the job if line, branch or function coverage drops below 100%
+    - run: npm run test:cc
+    # Codecov is for the PR comment and badge only. An outage, or a fork PR
+    # without the token, shouldn't fail CI: the step above already enforces 100%.
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v7
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: erikfox/wilson-interval
+        files: lcov.info
+        fail_ci_if_error: false
