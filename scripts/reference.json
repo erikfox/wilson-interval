@@ -1,0 +1,283 @@
+{
+  "wilson": [
+    {
+      "args": {
+        "observed": 5,
+        "sample": 100,
+        "population": null,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 0.02154367915436798,
+        "center": 0.06664707419314354,
+        "high": 0.11175046923191911
+      }
+    },
+    {
+      "args": {
+        "observed": 0,
+        "sample": 10,
+        "population": null,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 0.0,
+        "center": 0.13876639993144452,
+        "high": 0.27753279986288903
+      }
+    },
+    {
+      "args": {
+        "observed": 10,
+        "sample": 10,
+        "population": null,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 0.722467200137111,
+        "center": 0.8612336000685554,
+        "high": 1.0
+      }
+    },
+    {
+      "args": {
+        "observed": 0,
+        "sample": 1,
+        "population": null,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 0.0,
+        "center": 0.3967253428113812,
+        "high": 0.7934506856227624
+      }
+    },
+    {
+      "args": {
+        "observed": 1,
+        "sample": 1,
+        "population": null,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 0.20654931437723753,
+        "center": 0.6032746571886187,
+        "high": 1.0
+      }
+    },
+    {
+      "args": {
+        "observed": 1,
+        "sample": 2,
+        "population": null,
+        "confidence": 0.5
+      },
+      "expected": {
+        "low": 0.28475888458196236,
+        "center": 0.5,
+        "high": 0.7152411154180376
+      }
+    },
+    {
+      "args": {
+        "observed": 50,
+        "sample": 100,
+        "population": null,
+        "confidence": 0.99
+      },
+      "expected": {
+        "low": 0.3752796250448399,
+        "center": 0.5,
+        "high": 0.6247203749551601
+      }
+    },
+    {
+      "args": {
+        "observed": 999,
+        "sample": 1000,
+        "population": null,
+        "confidence": 0.999
+      },
+      "expected": {
+        "low": 0.9873882793907751,
+        "center": 0.9936549187022778,
+        "high": 0.9999215580137806
+      }
+    },
+    {
+      "args": {
+        "observed": 1,
+        "sample": 1000000000,
+        "population": null,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 1.7652455495696324e-10,
+        "center": 2.920729399127199e-09,
+        "high": 5.664934243297435e-09
+      }
+    },
+    {
+      "args": {
+        "observed": 500000000,
+        "sample": 1000000000,
+        "population": null,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 0.49996901024806806,
+        "center": 0.5,
+        "high": 0.5000309897519319
+      }
+    },
+    {
+      "args": {
+        "observed": 5,
+        "sample": 100,
+        "population": 227,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 0.02643119904979248,
+        "center": 0.05950886403022134,
+        "high": 0.0925865290106502
+      }
+    },
+    {
+      "args": {
+        "observed": 5,
+        "sample": 100,
+        "population": 227,
+        "confidence": 0.9
+      },
+      "expected": {
+        "low": 0.029229609379633467,
+        "center": 0.05673921186382624,
+        "high": 0.08424881434801901
+      }
+    },
+    {
+      "args": {
+        "observed": 3,
+        "sample": 10,
+        "population": 20,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 0.14271961420880883,
+        "center": 0.3336358448105233,
+        "high": 0.5245520754122377
+      }
+    },
+    {
+      "args": {
+        "observed": 123,
+        "sample": 456,
+        "population": 1000,
+        "confidence": 0.8
+      },
+      "expected": {
+        "low": 0.2505463203554556,
+        "center": 0.27018756981160963,
+        "high": 0.28982881926776366
+      }
+    },
+    {
+      "args": {
+        "observed": 1,
+        "sample": 1,
+        "population": 2,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 0.20654931437723753,
+        "center": 0.6032746571886187,
+        "high": 1.0
+      }
+    },
+    {
+      "args": {
+        "observed": 99,
+        "sample": 100,
+        "population": 101,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 0.9878530177449055,
+        "center": 0.9898118407983685,
+        "high": 0.9917706638518313
+      }
+    },
+    {
+      "args": {
+        "observed": 5,
+        "sample": 100,
+        "population": 100,
+        "confidence": 0.95
+      },
+      "expected": {
+        "low": 0.05,
+        "center": 0.05,
+        "high": 0.05
+      }
+    }
+  ],
+  "normalQuantile": [
+    {
+      "p": 1e-10,
+      "expected": -6.361340902404057
+    },
+    {
+      "p": 0.001,
+      "expected": -3.090232306167813
+    },
+    {
+      "p": 0.01,
+      "expected": -2.3263478740408408
+    },
+    {
+      "p": 0.02425,
+      "expected": -1.9729610513118845
+    },
+    {
+      "p": 0.025,
+      "expected": -1.9599639845400538
+    },
+    {
+      "p": 0.05,
+      "expected": -1.6448536269514722
+    },
+    {
+      "p": 0.1,
+      "expected": -1.2815515655446006
+    },
+    {
+      "p": 0.5,
+      "expected": 0.0
+    },
+    {
+      "p": 0.9,
+      "expected": 1.2815515655446006
+    },
+    {
+      "p": 0.95,
+      "expected": 1.6448536269514715
+    },
+    {
+      "p": 0.975,
+      "expected": 1.9599639845400534
+    },
+    {
+      "p": 0.99,
+      "expected": 2.3263478740408408
+    },
+    {
+      "p": 0.995,
+      "expected": 2.5758293035489
+    },
+    {
+      "p": 0.999,
+      "expected": 3.090232306167813
+    }
+  ]
+}
