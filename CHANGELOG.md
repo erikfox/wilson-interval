@@ -8,6 +8,7 @@ All notable changes to this project are documented here. The format is based on 
 
 - `CHANGELOG.md`.
 - `SECURITY.md`, with vulnerability reports through GitHub private vulnerability reporting.
+- `CODE_OF_CONDUCT.md`, adopting the Contributor Covenant 3.0.
 - An Accuracy section in the README, and credit for Peter J. Acklam's algorithm behind `normalQuantile`.
 
 ### Changed

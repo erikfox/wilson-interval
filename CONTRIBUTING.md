@@ -2,6 +2,8 @@
 
 Thanks for helping out. Bug reports, fixes, docs improvements and feature ideas are all welcome.
 
+Everyone taking part is expected to follow the [code of conduct](CODE_OF_CONDUCT.md).
+
 ## Ground rules
 
 - **No runtime dependencies.** The package is a single ES module with no build step. Changes that add a dependency or a compile step are unlikely to be accepted.
