@@ -2,7 +2,7 @@
   "name": "wilson-interval",
   "version": "5.1.1",
   "author": "Erik Fox <eriktfox@gmail.com> (http://erikfox.dev)",
-  "description": "Used to calculate the high bound, low bound, and center of a Wilson score interval. Features support for Singleton's adjustment (finite population correction).",
+  "description": "Wilson score confidence interval for a binomial proportion, with optional finite population and continuity corrections. Zero dependencies, TypeScript types included.",
   "license": "MIT",
   "homepage": "https://github.com/erikfox/wilson-interval",
   "repository": {
@@ -14,6 +14,10 @@
   },
   "keywords": [
     "wilson",
+    "wilson-score",
+    "binomial",
+    "continuity-correction",
+    "finite-population-correction",
     "score",
     "reddit",
     "confidence",
