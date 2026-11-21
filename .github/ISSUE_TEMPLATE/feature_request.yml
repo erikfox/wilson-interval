@@ -1,0 +1,27 @@
+name: Feature request
+description: Suggest a new option, method, or improvement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do that the module doesn't support today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: How would it work? Include example calls and output if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Statistical source
+      description: For a new formula or adjustment, link the paper or reference it comes from.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
