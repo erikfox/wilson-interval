@@ -203,4 +203,4 @@ console.log(normalQuantile(0.975));
 <sup>[4]</sup> [Newcombe, Robert G. 1998. *Two-sided confidence intervals for the single proportion: comparison of seven methods*. Statistics in Medicine 17(8): 857–872.](https://doi.org/10.1002/(SICI)1097-0258(19980430)17:8%3C857::AID-SIM777%3E3.0.CO;2-E)
 
 ___
-*Special thanks to Sean Wallis, Senior Research Fellow at the Survey of English Usage, for his help transcribing equations, and for the blog posts that inspired many of this module's features.*
+*Special thanks to [Sean Wallis](https://profiles.ucl.ac.uk/21175-sean-wallis), Principal Research Fellow and Deputy Director of the Survey of English Usage, UCL, for his help transcribing equations, and for the blog posts that inspired many of this module's features.*
