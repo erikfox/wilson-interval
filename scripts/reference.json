@@ -5,7 +5,8 @@
         "observed": 5,
         "sample": 100,
         "population": null,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.02154367915436798,
@@ -18,7 +19,8 @@
         "observed": 0,
         "sample": 10,
         "population": null,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.0,
@@ -31,7 +33,8 @@
         "observed": 10,
         "sample": 10,
         "population": null,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.722467200137111,
@@ -44,7 +47,8 @@
         "observed": 0,
         "sample": 1,
         "population": null,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.0,
@@ -57,7 +61,8 @@
         "observed": 1,
         "sample": 1,
         "population": null,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.20654931437723753,
@@ -70,7 +75,8 @@
         "observed": 1,
         "sample": 2,
         "population": null,
-        "confidence": 0.5
+        "confidence": 0.5,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.28475888458196236,
@@ -83,7 +89,8 @@
         "observed": 50,
         "sample": 100,
         "population": null,
-        "confidence": 0.99
+        "confidence": 0.99,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.3752796250448399,
@@ -96,7 +103,8 @@
         "observed": 999,
         "sample": 1000,
         "population": null,
-        "confidence": 0.999
+        "confidence": 0.999,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.9873882793907751,
@@ -109,7 +117,8 @@
         "observed": 1,
         "sample": 1000000000,
         "population": null,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 1.7652455495696324e-10,
@@ -122,7 +131,8 @@
         "observed": 500000000,
         "sample": 1000000000,
         "population": null,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.49996901024806806,
@@ -135,7 +145,8 @@
         "observed": 5,
         "sample": 100,
         "population": 227,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.02643119904979248,
@@ -148,7 +159,8 @@
         "observed": 5,
         "sample": 100,
         "population": 227,
-        "confidence": 0.9
+        "confidence": 0.9,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.029229609379633467,
@@ -161,7 +173,8 @@
         "observed": 3,
         "sample": 10,
         "population": 20,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.14271961420880883,
@@ -174,7 +187,8 @@
         "observed": 123,
         "sample": 456,
         "population": 1000,
-        "confidence": 0.8
+        "confidence": 0.8,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.2505463203554556,
@@ -187,7 +201,8 @@
         "observed": 1,
         "sample": 1,
         "population": 2,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.20654931437723753,
@@ -200,7 +215,8 @@
         "observed": 99,
         "sample": 100,
         "population": 101,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
       },
       "expected": {
         "low": 0.9878530177449055,
@@ -213,7 +229,274 @@
         "observed": 5,
         "sample": 100,
         "population": 100,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "continuityCorrection": false
+      },
+      "expected": {
+        "low": 0.05,
+        "center": 0.05,
+        "high": 0.05
+      }
+    },
+    {
+      "args": {
+        "observed": 81,
+        "sample": 263,
+        "population": null,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.2535086822951852,
+        "center": 0.3107490484305372,
+        "high": 0.3681762010430035
+      }
+    },
+    {
+      "args": {
+        "observed": 15,
+        "sample": 148,
+        "population": null,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.05977820842849813,
+        "center": 0.11143682062702213,
+        "high": 0.16444977936483693
+      }
+    },
+    {
+      "args": {
+        "observed": 0,
+        "sample": 20,
+        "population": null,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.0,
+        "center": 0.08056257902640963,
+        "high": 0.20045334501348697
+      }
+    },
+    {
+      "args": {
+        "observed": 1,
+        "sample": 29,
+        "population": null,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.0018026402132796783,
+        "center": 0.08893421654298272,
+        "high": 0.19628175100975948
+      }
+    },
+    {
+      "args": {
+        "observed": 5,
+        "sample": 100,
+        "population": null,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.018552563721717662,
+        "center": 0.06664707419314354,
+        "high": 0.11829946386900785
+      }
+    },
+    {
+      "args": {
+        "observed": 100,
+        "sample": 100,
+        "population": null,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.9538986593878137,
+        "center": 0.9815032508965071,
+        "high": 1.0
+      }
+    },
+    {
+      "args": {
+        "observed": 0,
+        "sample": 1,
+        "population": null,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.0,
+        "center": 0.3967253428113812,
+        "high": 0.9453792444711481
+      }
+    },
+    {
+      "args": {
+        "observed": 1,
+        "sample": 1,
+        "population": null,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.05462075552885195,
+        "center": 0.6032746571886187,
+        "high": 1.0
+      }
+    },
+    {
+      "args": {
+        "observed": 1,
+        "sample": 2,
+        "population": null,
+        "confidence": 0.5,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.10425347838136542,
+        "center": 0.5,
+        "high": 0.8957465216186346
+      }
+    },
+    {
+      "args": {
+        "observed": 50,
+        "sample": 100,
+        "population": null,
+        "confidence": 0.99,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.37059657662990164,
+        "center": 0.5,
+        "high": 0.6294034233700985
+      }
+    },
+    {
+      "args": {
+        "observed": 999,
+        "sample": 1000,
+        "population": null,
+        "confidence": 0.999,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.9864852504465518,
+        "center": 0.9936549187022778,
+        "high": 0.9999788246162982
+      }
+    },
+    {
+      "args": {
+        "observed": 1,
+        "sample": 1000000000,
+        "population": null,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 5.22001455692831e-11,
+        "center": 2.920729399127199e-09,
+        "high": 6.495040639998232e-09
+      }
+    },
+    {
+      "args": {
+        "observed": 5,
+        "sample": 100,
+        "population": 227,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.022983276039623482,
+        "center": 0.05950886403022134,
+        "high": 0.09885163743171019
+      }
+    },
+    {
+      "args": {
+        "observed": 5,
+        "sample": 100,
+        "population": 227,
+        "confidence": 0.9,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.02554573493395462,
+        "center": 0.05673921186382624,
+        "high": 0.09034868788141513
+      }
+    },
+    {
+      "args": {
+        "observed": 3,
+        "sample": 10,
+        "population": 20,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.10955817575616977,
+        "center": 0.3336358448105233,
+        "high": 0.572450536166444
+      }
+    },
+    {
+      "args": {
+        "observed": 0,
+        "sample": 10,
+        "population": 20,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.0,
+        "center": 0.08408961202630809,
+        "high": 0.24279629474708592
+      }
+    },
+    {
+      "args": {
+        "observed": 99,
+        "sample": 100,
+        "population": 101,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.9824245640695475,
+        "center": 0.9898118407983685,
+        "high": 0.9962050989291227
+      }
+    },
+    {
+      "args": {
+        "observed": 1,
+        "sample": 1,
+        "population": 2,
+        "confidence": 0.95,
+        "continuityCorrection": true
+      },
+      "expected": {
+        "low": 0.054620755528852004,
+        "center": 0.6032746571886187,
+        "high": 1.0
+      }
+    },
+    {
+      "args": {
+        "observed": 5,
+        "sample": 100,
+        "population": 100,
+        "confidence": 0.95,
+        "continuityCorrection": true
       },
       "expected": {
         "low": 0.05,

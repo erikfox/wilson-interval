@@ -23,6 +23,14 @@ the JS normalQuantile approximation.
 With a known population N, n is replaced by n' = n (N - 1) / (N - n): the
 variance of sampling without replacement, as in Wallis (2012), "Inferential
 statistics -- and other animals". p is unchanged, and n = N gives zero width.
+
+Continuity correction (the center is the uncorrected Wilson center):
+- Without a population: Newcombe (1998) method 4 closed form, as printed in
+  Wallis (2019), "Correcting for continuity", Eq. 6. src/index.js uses the
+  shifted form below instead, so the two are checked against each other.
+- With a population: Wallis (2019) Eq. 9, the Wilson bounds of p -/+ 1/(2n)
+  (clamped to [0, 1]) with n' in place of n. The 1/(2n) shift keeps the
+  original n. n = N still gives zero width (decided; the post doesn't cover it).
 """
 
 import json
@@ -31,12 +39,12 @@ import sys
 from statistics import NormalDist
 
 
-def wilson(observed, sample, population=None, confidence=0.95):
-    p = observed / sample
-    if population is not None and sample == population:
-        return {"low": p, "center": p, "high": p}
-    n = sample if population is None else sample * (population - 1) / (population - sample)
-    z = NormalDist().inv_cdf(1 - (1 - confidence) / 2)
+def z_score(confidence):
+    return NormalDist().inv_cdf(1 - (1 - confidence) / 2)
+
+
+def score_bounds(p, n, z):
+    """Roots of (1 + z^2/n) pi^2 - (2p + z^2/n) pi + p^2 = 0, low first."""
     k = z * z / n
     a = 1 + k
     b = -(2 * p + k)
@@ -45,12 +53,45 @@ def wilson(observed, sample, population=None, confidence=0.95):
     high = (-b + root) / (2 * a)
     # Product of the roots is c / a; this avoids cancellation in -b - root
     low = c / (a * high)
-    # Exact boundary values; the quadratic formula can drift by an ulp
+    return low, high
+
+
+def newcombe_cc(observed, sample, z):
+    """Newcombe (1998) method 4: Wilson score interval with continuity correction."""
+    n = sample
+    p = observed / n
+    if observed == 0:
+        low = 0.0
+    else:
+        low = (2 * n * p + z * z - 1 - z * math.sqrt(z * z - 2 - 1 / n + 4 * p * (n * (1 - p) + 1))) / (2 * (n + z * z))
+    if observed == n:
+        high = 1.0
+    else:
+        high = (2 * n * p + z * z + 1 + z * math.sqrt(z * z + 2 - 1 / n + 4 * p * (n * (1 - p) - 1))) / (2 * (n + z * z))
+    return max(low, 0.0), min(high, 1.0)
+
+
+def wilson(observed, sample, population=None, confidence=0.95, continuity_correction=False):
+    p = observed / sample
+    if population is not None and sample == population:
+        return {"low": p, "center": p, "high": p}
+    n = sample if population is None else sample * (population - 1) / (population - sample)
+    z = z_score(confidence)
+    low, high = score_bounds(p, n, z)
+    center = (low + high) / 2
+    if continuity_correction:
+        if population is None:
+            low, high = newcombe_cc(observed, sample, z)
+        else:
+            shift = 1 / (2 * sample)
+            low = score_bounds(max(p - shift, 0.0), n, z)[0]
+            high = score_bounds(min(p + shift, 1.0), n, z)[1]
+    # Exact boundary values; floating-point arithmetic can drift by an ulp
     if observed == 0:
         low = 0.0
     if observed == sample:
         high = 1.0
-    return {"low": low, "center": (low + high) / 2, "high": high}
+    return {"low": low, "center": center, "high": high}
 
 
 # (observed, sample, population, confidence)
@@ -74,6 +115,30 @@ WILSON_CASES = [
     (5, 100, 100, 0.95),
 ]
 
+# Continuity-corrected cases, same columns. The first four are the examples
+# in Newcombe (1998), Table I.
+CC_CASES = [
+    (81, 263, None, 0.95),
+    (15, 148, None, 0.95),
+    (0, 20, None, 0.95),
+    (1, 29, None, 0.95),
+    (5, 100, None, 0.95),
+    (100, 100, None, 0.95),
+    (0, 1, None, 0.95),
+    (1, 1, None, 0.95),
+    (1, 2, None, 0.5),
+    (50, 100, None, 0.99),
+    (999, 1000, None, 0.999),
+    (1, 10**9, None, 0.95),
+    (5, 100, 227, 0.95),
+    (5, 100, 227, 0.9),
+    (3, 10, 20, 0.95),
+    (0, 10, 20, 0.95),
+    (99, 100, 101, 0.95),
+    (1, 1, 2, 0.95),
+    (5, 100, 100, 0.95),
+]
+
 QUANTILE_CASES = [1e-10, 0.001, 0.01, 0.02425, 0.025, 0.05, 0.1, 0.5, 0.9, 0.95, 0.975, 0.99, 0.995, 0.999]
 
 
@@ -84,10 +149,11 @@ def build():
     return {
         "wilson": [
             {
-                "args": {"observed": o, "sample": s, "population": n, "confidence": c},
-                "expected": wilson(o, s, n, c),
+                "args": {"observed": o, "sample": s, "population": n, "confidence": c, "continuityCorrection": cc},
+                "expected": wilson(o, s, n, c, cc),
             }
-            for o, s, n, c in WILSON_CASES
+            for cc, cases in ((False, WILSON_CASES), (True, CC_CASES))
+            for o, s, n, c in cases
         ],
         "normalQuantile": [{"p": p, "expected": NormalDist().inv_cdf(p)} for p in QUANTILE_CASES],
     }

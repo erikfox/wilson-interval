@@ -1,4 +1,4 @@
-const OPTIONS = ['population', 'confidence'];
+const OPTIONS = ['population', 'confidence', 'continuityCorrection'];
 
 const MIGRATION_ERROR =
   'wilson() takes an options object as its third argument since v6. ' +
@@ -22,7 +22,7 @@ export default function wilson(observed, sample, options = {}) {
     }
   }
 
-  const { population, confidence = 0.95 } = options;
+  const { population, confidence = 0.95, continuityCorrection = false } = options;
 
   if (!Number.isSafeInteger(observed) || observed < 0) {
     throw new Error('Observed must be a non-negative whole number');
@@ -38,6 +38,10 @@ export default function wilson(observed, sample, options = {}) {
 
   if (typeof confidence !== 'number' || Number.isNaN(confidence) || confidence <= 0 || confidence >= 1) {
     throw new Error('Confidence must be a decimal between 0 and 1');
+  }
+
+  if (typeof continuityCorrection !== 'boolean') {
+    throw new Error('Continuity correction must be true or false');
   }
 
   const p = observed / sample;
@@ -65,20 +69,38 @@ export default function wilson(observed, sample, options = {}) {
   // (1 − (1 − confidence) / 2 can round to exactly 1 and give z = Infinity)
   const z = -normalQuantile((1 - confidence) / 2);
 
-  const denominator = 1 + z * z / n;
-  const center = (p + z * z / (2 * n)) / denominator;
-  const margin = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / denominator;
+  const { center, low: scoreLow, high: scoreHigh } = scoreInterval(p, n, z);
+  let low = scoreLow;
+  let high = scoreHigh;
+
+  if (continuityCorrection) {
+    // Wilson bounds of p ∓ 1/(2n), clamped to [0, 1]. The shift uses the
+    // original sample size even when n is adjusted for a population.
+    // center stays the uncorrected Wilson center.
+    // See Wallis (2019), "Correcting for continuity", Eq. 9.
+    const shift = 1 / (2 * sample);
+    low = Math.min(low, scoreInterval(Math.max(p - shift, 0), n, z).low);
+    high = Math.max(high, scoreInterval(Math.min(p + shift, 1), n, z).high);
+  }
 
   // The bounds are exactly 0 at p = 0 and exactly 1 at p = 1; elsewhere, clamp
   // away floating-point drift so that 0 ≤ low ≤ p ≤ high ≤ 1 always holds
-  const low = observed === 0 ? 0 : Math.max(0, Math.min(center - margin, p));
-  const high = observed === sample ? 1 : Math.min(1, Math.max(center + margin, p));
+  low = observed === 0 ? 0 : Math.max(0, Math.min(low, p));
+  high = observed === sample ? 1 : Math.min(1, Math.max(high, p));
 
   return {
     high,
     center,
     low,
   };
+}
+
+// Wilson score interval for proportion p with sample size n and critical value z
+function scoreInterval(p, n, z) {
+  const denominator = 1 + z * z / n;
+  const center = (p + z * z / (2 * n)) / denominator;
+  const margin = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / denominator;
+  return { center, low: center - margin, high: center + margin };
 }
 
 // Returns the quantile (inverse CDF) for the standard normal distribution

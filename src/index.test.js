@@ -41,8 +41,10 @@ function assertBounds({ low, center, high }, p) {
 
 describe('wilson() reference values', () => {
   for (const { args, expected } of reference.wilson) {
-    const { observed, sample, population, confidence } = args;
-    const options = population === null ? { confidence } : { population, confidence };
+    const { observed, sample, population, confidence, continuityCorrection } = args;
+    const options = { confidence };
+    if (population !== null) options.population = population;
+    if (continuityCorrection) options.continuityCorrection = true;
     const call = `wilson(${observed}, ${sample}, ${JSON.stringify(options)})`;
     test(call, () => {
       const actual = wilson(observed, sample, options);
@@ -187,6 +189,65 @@ describe('wilson()', () => {
   });
 });
 
+describe('wilson() continuity correction', () => {
+  const confidences = [0.5, 0.9, 0.95, 0.99, 0.999];
+
+  test('contains the uncorrected interval, within bounds, across a grid', () => {
+    for (let sample = 1; sample <= 80; sample++) {
+      for (const population of [undefined, sample, sample + 1, sample * 2, sample * 50]) {
+        for (const confidence of confidences) {
+          for (let observed = 0; observed <= sample; observed++) {
+            const plain = wilson(observed, sample, { population, confidence });
+            const cc = wilson(observed, sample, { population, confidence, continuityCorrection: true });
+            const label = `wilson(${observed}, ${sample}, ${population}, ${confidence})`;
+            assert.ok(cc.low <= plain.low && plain.high <= cc.high, `${label}: CC does not contain plain`);
+            assertBounds(cc, observed / sample);
+          }
+        }
+      }
+    }
+  });
+
+  test('is strictly wider than the uncorrected interval away from the bounds', () => {
+    const plain = wilson(5, 100);
+    const cc = wilson(5, 100, { continuityCorrection: true });
+    assert.ok(cc.low < plain.low && plain.high < cc.high);
+  });
+
+  test('does not change center', () => {
+    for (const options of [{}, { population: 227 }, { confidence: 0.99 }]) {
+      assert.strictEqual(
+        wilson(5, 100, { ...options, continuityCorrection: true }).center,
+        wilson(5, 100, options).center
+      );
+    }
+  });
+
+  test('keeps exact bounds at observed = 0 and observed = sample', () => {
+    assert.strictEqual(wilson(0, 20, { continuityCorrection: true }).low, 0);
+    assert.strictEqual(wilson(20, 20, { continuityCorrection: true }).high, 1);
+  });
+
+  test('`sample` = `population` still collapses the interval to p', () => {
+    assert.deepEqual(
+      wilson(5, 100, { population: 100, continuityCorrection: true }),
+      { high: 0.05, center: 0.05, low: 0.05 }
+    );
+  });
+
+  test('false is the same as omitting it', () => {
+    assert.deepEqual(wilson(5, 100, { continuityCorrection: false }), wilson(5, 100));
+  });
+
+  test('non-boolean values throw', () => {
+    for (const continuityCorrection of [1, 'true', null]) {
+      assert.throws(() => wilson(5, 100, { continuityCorrection }), {
+        message: 'Continuity correction must be true or false'
+      }, `continuityCorrection = ${continuityCorrection}`);
+    }
+  });
+});
+
 describe('wilson() options', () => {
   const MIGRATION = /^wilson\(\) takes an options object as its third argument/;
 
@@ -231,7 +292,7 @@ describe('wilson() options', () => {
 
   test('unknown option keys throw', () => {
     assert.throws(() => wilson(5, 100, { confidnce: 0.9 }), {
-      message: 'Unknown option "confidnce" (expected one of: population, confidence)'
+      message: 'Unknown option "confidnce" (expected one of: population, confidence, continuityCorrection)'
     });
   });
 
