@@ -4,6 +4,10 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+## [6.0.1] - 2026-11-21
+
+Documentation and package metadata only. `wilson()` and `normalQuantile()` return the same results as 6.0.0.
+
 ### Added
 
 - `CHANGELOG.md`.
@@ -73,7 +77,8 @@ No functional changes to the source code. This release reworks the repository. I
 
 - All development dependencies.
 
-[Unreleased]: https://github.com/erikfox/wilson-interval/compare/v6.0.0...HEAD
+[Unreleased]: https://github.com/erikfox/wilson-interval/compare/v6.0.1...HEAD
+[6.0.1]: https://github.com/erikfox/wilson-interval/releases/tag/v6.0.1
 [6.0.0]: https://github.com/erikfox/wilson-interval/releases/tag/v6.0.0
 [5.1.1]: https://github.com/erikfox/wilson-interval/releases/tag/v5.1.1
 [5.1.0]: https://github.com/erikfox/wilson-interval/releases/tag/v5.1.0
