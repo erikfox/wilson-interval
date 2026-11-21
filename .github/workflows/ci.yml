@@ -67,9 +67,14 @@ jobs:
         node-version: 24
         cache: 'npm'
     - run: npm ci
+    # Fails the job if line, branch or function coverage drops below 100%
     - run: npm run test:cc
+    # Codecov is for the PR comment and badge only. An outage, or a fork PR
+    # without the token, shouldn't fail CI: the step above already enforces 100%.
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v7
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         slug: erikfox/wilson-interval
+        files: lcov.info
+        fail_ci_if_error: false
