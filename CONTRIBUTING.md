@@ -52,11 +52,20 @@ When you write tests:
   CI runs `python3 scripts/reference.py --check scripts/reference.json` and fails if the two are out of sync.
 - **Compare floating-point results with a tolerance** (see `assertClose` in `src/index.test.js`), not exact equality.
 
+## Linting and formatting
+
+[Biome](https://biomejs.dev/) lints and formats the JavaScript, TypeScript and JSON files, using the rules in `biome.json`. Like the other tools, it runs through a pinned `npx`, so there is nothing to install.
+
+```sh
+npm run lint     # check, as CI does
+npm run format   # fix formatting in place
+```
+
 ## Pull requests
 
 1. Fork the repo and create a branch from `master`.
 2. Make your change, with tests.
-3. Run `npm test` and `npm run test:cc`.
+3. Run `npm test`, `npm run test:cc` and `npm run lint`.
 4. Open a pull request and fill in the template. Link the issue it fixes (for example `Closes #12`).
 
 A maintainer will review, and may ask for changes before merging. Commits on `master` must be signed; if yours aren't, the maintainer can squash-merge.
@@ -69,6 +78,7 @@ Every pull request runs these checks, and they must pass before it can merge:
 |---|---|---|
 | `test (22.x)`, `test (24.x)`, `test (latest)` | The test suite on each supported Node release | `npm test` |
 | `coverage` | 100% line, branch and function coverage | `npm run test:cc` |
+| `lint` | Lint rules and formatting, with [Biome](https://biomejs.dev/) (`biome.json`) | `npm run lint`; `npm run format` fixes formatting |
 | `types` | `src/index.d.ts` against the fixture in `test/types.ts` | `npm run test:types` |
 | `reference` | `scripts/reference.json` matches `scripts/reference.py` | `python3 scripts/reference.py --check scripts/reference.json` |
 | `package` | The files `npm publish` would ship, `package.json` fields and exports, and that the types resolve | `npm pack --dry-run`, then `npx -y publint@0.3.25 --strict` and `npx -y @arethetypeswrong/cli@0.18.5 --pack . --profile esm-only` |
