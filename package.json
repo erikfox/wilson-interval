@@ -1,7 +1,7 @@
 {
   "name": "wilson-interval",
   "version": "6.0.0",
-  "author": "Erik Fox <eriktfox@gmail.com> (http://erikfox.dev)",
+  "author": "Erik Fox <eriktfox@gmail.com> (https://erikfox.dev)",
   "description": "Wilson score confidence interval for a binomial proportion, with optional finite population and continuity corrections. Zero dependencies, TypeScript types included.",
   "license": "MIT",
   "homepage": "https://github.com/erikfox/wilson-interval",
@@ -33,6 +33,7 @@
     "node": ">=22"
   },
   "type": "module",
+  "sideEffects": false,
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "files": [
