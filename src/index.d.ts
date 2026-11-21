@@ -55,7 +55,8 @@ export default function wilson(
 ): WilsonInterval;
 
 /**
- * Quantile (inverse CDF) of the standard normal distribution.
+ * Quantile (inverse CDF) of the standard normal distribution, computed with
+ * Peter J. Acklam's rational approximation (relative error below 1.15e-9).
  *
  * @param p A probability from 0 to 1. Returns `-Infinity` at 0 and `Infinity` at 1.
  * @throws {Error} If `p` is outside [0, 1] or NaN.

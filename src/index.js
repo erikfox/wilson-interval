@@ -103,7 +103,12 @@ function scoreInterval(p, n, z) {
   return { center, low: center - margin, high: center + margin };
 }
 
-// Returns the quantile (inverse CDF) for the standard normal distribution
+// Returns the quantile (inverse CDF) for the standard normal distribution,
+// using Peter J. Acklam's rational approximation. Its relative error is below
+// 1.15e-9 over the whole of (0, 1). Acklam's original note
+// (http://home.online.no/~pjacklam/notes/invnorm/) is no longer online; this
+// write-up gives the same algorithm and coefficients:
+// https://stackedboxes.org/2017/05/01/acklams-normal-quantile-function/
 export function normalQuantile(p) {
   if (Number.isNaN(p) || p < 0 || p > 1) {
     throw new Error('p must be a decimal between 0 and 1');
