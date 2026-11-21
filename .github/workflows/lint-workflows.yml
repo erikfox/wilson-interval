@@ -13,6 +13,12 @@ on:
 permissions:
   contents: read
 
+# A new push to a PR cancels that PR's run still in progress. Each push to
+# master gets its own group (keyed by SHA), so master runs are never cancelled.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   # Syntax, expressions, runner labels and shellcheck on run: blocks
   # https://github.com/rhysd/actionlint
@@ -23,7 +29,7 @@ jobs:
       # From actionlint_1.7.12_checksums.txt on the release page
       ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
     - name: Install actionlint
@@ -40,11 +46,11 @@ jobs:
   zizmor:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
     - name: Run zizmor
-      uses: zizmorcore/zizmor-action@v0.8.1
+      uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd # v0.8.1
       with:
         version: 1.32.0
         online-audits: false
